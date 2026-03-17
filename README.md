@@ -1,6 +1,6 @@
 # ArenaConecta
 
-![logo](logo.svg)
+![site preview](site_preview.png)
 <br/>
 O ArenaConecta é uma aplicação web desenvolvida para aproximar cidadãos, organizadores de eventos e administradores da Arena de Pernambuco. A plataforma centraliza a divulgação de eventos, facilita a descoberta de atividades culturais, esportivas e corporativas, e oferece ferramentas de gestão para a administração do espaço.
 
