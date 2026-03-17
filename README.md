@@ -11,6 +11,7 @@ Por meio de visualização de eventos, sugestões da comunidade, agendamento de 
 ## Protótipo de Lo-Fi
 
 [Link do figma (Visualização) - ArenaConecta](https://www.figma.com/design/ByptxHRdrb732CSxq2tfYd/POO?node-id=0-1&t=kt371WjXbgAD5Phl-1)
+<br/>
 [Link do youtube - ArenaConecta](https://youtu.be/0MDmpcT7xBk)
 
 ## Histórias do Usuário
