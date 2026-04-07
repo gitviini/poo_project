@@ -1,0 +1,19 @@
+main{
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+}
+
+.container-banner {
+    width: 100%;
+    & img {
+        width: 100%;
+        border-radius: 1rem;
+    }
+}
+
+.date {
+    color: #00000080;
+}

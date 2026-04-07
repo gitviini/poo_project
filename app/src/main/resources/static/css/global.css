@@ -1,0 +1,53 @@
+*{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+html, body{
+    width: 100%;
+    height: 100%;
+}
+
+.header {
+    padding: 0.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border-bottom: 1px solid #00000050;
+}
+
+.btn {
+    padding: 1rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    &.auth {
+        background-image: linear-gradient(to right, #026C9E, #00426b);
+    }
+
+    &.primary {
+    background-color: #026C9E;
+        color: white;
+    }
+}
+
+.card {
+    height: 20rem;
+    width: 15rem;
+    border-radius: 2rem;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px #00000050;
+    img {
+        width: 100%;
+        height: 50%;
+    }
+    .date {
+        padding: 1rem;
+        border-bottom: 1px solid #00000050;
+        color: #00000080;
+    }
+    .title {
+        padding: 1rem;
+    }
+}
