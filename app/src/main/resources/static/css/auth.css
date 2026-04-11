@@ -29,12 +29,4 @@ form {
     justify-content: center;
     width: 75%;
     gap: 1rem;
-
-    input {
-        padding: 0.5rem;
-        border: none;
-        border-bottom: 1px solid #000;
-        border-radius: 0.75rem;
-        background-color: #00000010;
-    }
 }

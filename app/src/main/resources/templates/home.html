@@ -1,44 +1,61 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home</title>
-    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon">
-    <link rel="stylesheet" href="/css/global.css">
-    <link rel="stylesheet" href="/css/home.css">
-</head>
-<body>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+  </head>
+  <body>
     <header class="header">
-        <a href="login">login</a><br>
-        <a href="signup">signup</a>
+      <img src="/img/logo.svg" class="logo" alt="" />
+      <a href="login">login</a><br />
+      <a href="signup">signup</a>
     </header>
     <main>
+      <section>
         <div class="container-banner">
-            <img src="img/arena_banner.svg" alt="">
+          <img class="banner" src="img/arena_banner.svg" alt="" />
         </div>
-        <h3>Venha conhecer a Arena de Pernambuco</h3>
-        <button class="btn primary">Agendar visita</button>
-        <hr>
 
-        <h3>Eventos</h3>
-        <p>*Não encontrou o evento que queria? Nos envie uma sugestão!</p>
-        <button class="btn primary">Enviar uma sugestão</button>
-        <hr>
+        <div class="container-link">
+          <h3>Venha conhecer a Arena de Pernambuco</h3>
+          <button class="btn primary">Agendar visita</button>
+        </div>
 
-        <div class="search-bar-event">
-            <input type="text">
-            <button>filtros</button>
+        <hr />
+
+        <div class="container-link">
+          <h3>Eventos</h3>
+          <p>*Não encontrou o evento que queria? Nos envie uma sugestão!</p>
+          <button class="btn primary">Enviar uma sugestão</button>
         </div>
-        <div class="cards-event" th:each="card : ${cards}">
-            <a th:href="@{/event/{event}(event=${card.title})}">
-                <div class="card">
-                    <img src="https://picsum.photos/200/300" alt="">
-                    <p th:text="${card.date}" class="date"></p>
-                    <p th:text="${card.title}" class="title"></p>
-                </div>
-            </a>
+        <hr />
+
+        <div class="container-search-bar-and-filter">
+          <input type="text" class="input second search-bar" />
+          <button class="btn second filter">filtros</button>
         </div>
+        <div class="cards-event">
+          <a
+            class="container-card"
+            th:each="card : ${cards}"
+            th:href="@{/event/{event}(event=${card.title})}"
+          >
+            <div class="card">
+              <img src="https://picsum.photos/200/300" alt="" />
+              <p
+                th:text="${#dates.format(card.date, 'dd/MM/yyyy')}"
+                class="date"
+              ></p>
+              <p th:text="${card.title}" class="title"></p>
+              <p th:text="${card.description}" class="description"></p>
+            </div>
+          </a>
+        </div>
+      </section>
     </main>
-</body>
+  </body>
 </html>

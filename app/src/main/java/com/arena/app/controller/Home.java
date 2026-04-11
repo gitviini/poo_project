@@ -7,9 +7,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.arena.app.repository.EventRepository;
-import org.springframework.web.bind.annotation.RequestParam;
-
-
 
 @Controller("/")
 public class Home {
