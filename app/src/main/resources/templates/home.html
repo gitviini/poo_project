@@ -7,6 +7,11 @@
     <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/home.css" />
+    <script
+      src="https://kit.fontawesome.com/5684532330.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/searchFilter.js"></script>
   </head>
   <body>
     <header class="header">
@@ -17,7 +22,7 @@
     <main>
       <section>
         <div class="container-banner">
-          <img class="banner" src="img/arena_banner.svg" alt="" />
+          <img class="banner" src="/img/arena_banner.svg" alt="" />
         </div>
 
         <div class="container-link">
@@ -35,9 +40,36 @@
         <hr />
 
         <div class="container-search-bar-and-filter">
-          <input type="text" class="input second search-bar" />
-          <button class="btn second filter">filtros</button>
+          <input
+            type="text"
+            class="input second search-bar"
+            placeholder="Pesquise por eventos"
+          />
+          <button class="btn second filter filter-button">
+            <i class="fa-solid fa-filter"></i>
+          </button>
         </div>
+
+        <div class="container-filters">
+          <p>*Escolha os filtros</p>
+          <br />
+          <button class="btn second filter">categoria</button>
+          <button class="btn second filter">data</button>
+        </div>
+
+        <form class="filter-form">
+          <p>*Insira os dados</p>
+          <br />
+          <input
+            type="text"
+            name=""
+            id=""
+            class="input second"
+            placeholder=""
+          />
+          <button class="btn second">Salvar</button>
+        </form>
+
         <div class="cards-event">
           <a
             class="container-card"
@@ -45,7 +77,12 @@
             th:href="@{/event/{event}(event=${card.title})}"
           >
             <div class="card">
-              <img src="https://picsum.photos/200/300" alt="" />
+              <div th:if="${card.imageBase64}">
+                <img th:src="${card.imageBase64}" alt="" />
+              </div>
+              <div th:unless="${card.imageBase64}">
+                <img src="/img/arena_banner.svg" alt="" />
+              </div>
               <p
                 th:text="${#dates.format(card.date, 'dd/MM/yyyy')}"
                 class="date"
@@ -58,4 +95,11 @@
       </section>
     </main>
   </body>
+  <script>
+    let filterButton = document.querySelector(".filter-button");
+    let filtersContainer = document.querySelector(".container-filters");
+    let filterForm = document.querySelector(".filter-form");
+
+    setFilterElements(filterButton, filtersContainer, filterForm);
+  </script>
 </html>

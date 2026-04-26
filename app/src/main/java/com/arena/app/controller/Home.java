@@ -16,7 +16,9 @@ public class Home {
     @GetMapping("")
     public String getHome(Model model) {
 
-        model.addAttribute("cards", eventRepository.findAll());
+        var cards = eventRepository.findAll();
+
+        model.addAttribute("cards", cards);
 
         return "home";
     }

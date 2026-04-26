@@ -38,6 +38,22 @@ main {
         }
     }
 
+    .container-filters{
+        overflow: hidden;
+        display: none;
+        &.visible {
+            display: initial;
+        }
+    }
+
+    .filter-form{
+        overflow: hidden;
+        display: none;
+        &.visible {
+            display: initial;
+        }
+    }
+
     .cards-event{
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
