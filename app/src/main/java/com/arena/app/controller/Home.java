@@ -1,7 +1,9 @@
 package com.arena.app.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -25,6 +27,14 @@ public class Home {
         var cards = eventRepository.findAll();
 
         model.addAttribute("cards", cards);
+        
+        /* 
+        --- EXAMPLE: CREATION TOAST ---
+
+        model.addAttribute("toast", Map.of(
+            "message", "Operação realizada com sucesso!",
+            "statusCode", 200));
+        */
 
         return "home";
     }

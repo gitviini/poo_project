@@ -1,0 +1,46 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <th:block th:fragment="toast">
+      <div
+        th:if="${toast != null}"
+        id="toast-container"
+        class="toast-container"
+      >
+        <div
+          class="toast-card"
+          th:classappend="${toast.statusCode >= 200 && toast.statusCode < 300} ? 'toast-success' : 'toast-error'"
+        >
+          <div class="toast-content">
+            <i
+              th:class="${toast.statusCode >= 200 && toast.statusCode < 300} ? 'fas fa-check-circle' : 'fas fa-exclamation-circle'"
+            ></i>
+
+            <span class="toast-message" th:text="${toast.message}"
+              >Mensagem do sistema</span
+            >
+          </div>
+
+          <button
+            class="toast-close"
+            onclick="this.parentElement.style.display = 'none'"
+          >
+            &times;
+          </button>
+        </div>
+      </div>
+      <script th:if="${toast != null}">
+        function closeToast() {
+          const toast = document.getElementById("toast-container");
+          if (toast) {
+            toast.style.opacity = "0";
+            setTimeout(() => toast.remove(), 500); // Remove do DOM após a transição
+          }
+        }
+
+        // Auto-fechar após 5 segundos
+        setTimeout(closeToast, 5000);
+      </script>
+    </th:block>
+  </body>
+</html>

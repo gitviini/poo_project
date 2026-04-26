@@ -1,0 +1,65 @@
+/* Container posicionado no canto inferior direito */
+.toast-container {
+    position: fixed;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 9999;
+    font-family: sans-serif;
+}
+
+/* Estilo base do card do toast */
+.toast-card {
+    min-width: 250px;
+    padding: 16px;
+    border-radius: 8px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Cores baseadas no status */
+.toast-success {
+    background-color: #28a745;
+    border-left: 5px solid #1e7e34;
+}
+
+.toast-error {
+    background-color: #dc3545;
+    border-left: 5px solid #bd2130;
+}
+
+/* Conteúdo interno */
+.toast-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toast-message {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Botão de fechar */
+.toast-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.8;
+    padding: 0 0 0 10px;
+}
+
+.toast-close:hover {
+    opacity: 1;
+}
+
+/* Animação de entrada */
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
