@@ -1,37 +1,53 @@
-function setFilterElements(filterButton = HTMLButtonElement, filtersContainer = HTMLDivElement, filterForm = HTMLFormElement){
-    filterButton.onclick = function (){
-        filtersContainer.classList.toggle("visible");
-        filterForm.classList.remove("visible");
-    }
+function setFilterElements(
+  filterButton = HTMLButtonElement,
+  filtersContainer = HTMLDivElement,
+  filterForm = HTMLFormElement,
+) {
+  filterButton.onclick = function () {
+    filtersContainer.classList.toggle("visible");
+    filterForm.classList.remove("visible");
+  };
 
-    setFilterHandlers(filtersContainer, filterForm);
-
-    filterForm.onsubmit = function (event){
-        event.preventDefault();
-
-        let input = filterForm.querySelector("input");
-        let inputValue = input.value;
-        input.value = "";
-
-        console.log(inputValue);
-
-        filterForm.classList.toggle("visible");
-    }
+  setFilterHandlers(filtersContainer, filterForm);
 }
 
-function setFilterHandlers(filtersContainer = HTMLDivElement, filterForm  = HTMLFormElement){
-    let filtersContainerChildren = filtersContainer.children;
-    for(let i = 0; i < filtersContainerChildren.length; i++){
-        let element = filtersContainerChildren[i];
-        element.onclick = function (){setSelectedFilter(element, filtersContainer, filterForm)}; 
-    }
+function setFilterHandlers(
+  filtersContainer = HTMLDivElement,
+  filterForm = HTMLFormElement,
+) {
+  let filters = filtersContainer.querySelectorAll("button.filter");
+
+  filters.forEach((element) => {
+    element.onclick = function () {
+      setSelectedFilter(element, filtersContainer, filterForm);
+    };
+  });
 }
 
-function setSelectedFilter(filter = HTMLButtonElement, filtersContainer = HTMLDivElement, filterForm = HTMLFormElement){
-    if(!filter){
-        return;
-    }
+function setSelectedFilter(
+  filter = HTMLButtonElement,
+  filtersContainer = HTMLDivElement,
+  filterForm = HTMLFormElement,
+) {
+  if (!filter) {
+    return;
+  }
 
-    filtersContainer.classList.remove("visible");
-    filterForm.classList.add("visible");
+  filtersContainer.classList.remove("visible");
+  filterForm.classList.add("visible");
+
+  let filterInput = filterForm.querySelector("input");
+
+  switch (filter.textContent) {
+    case "categoria":
+      filterInput.type = "text";
+      filterInput.name = "category";
+      filterInput.placeholder = "Informe a categoria.";
+      break;
+    case "data":
+      filterInput.type = "date";
+      filterInput.name = "date";
+      filterInput.placeholder = "Informe a data.";
+      break;
+  }
 }

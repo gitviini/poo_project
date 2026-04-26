@@ -51,21 +51,21 @@
         </div>
 
         <div class="container-filters">
-          <p>*Escolha os filtros</p>
+          <p>*Escolha o filtro</p>
           <br />
           <button class="btn second filter">categoria</button>
           <button class="btn second filter">data</button>
         </div>
 
-        <form class="filter-form">
+        <form class="filter-form" action="/events/filter" method="get">
           <p>*Insira os dados</p>
           <br />
           <input
-            type="text"
-            name=""
-            id=""
+            type="date"
+            name="date"
+            id="date"
             class="input second"
-            placeholder=""
+            placeholder="Insira a data"
           />
           <button class="btn second">Salvar</button>
         </form>
