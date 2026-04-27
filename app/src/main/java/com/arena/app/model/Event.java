@@ -4,6 +4,8 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.UUID;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,6 +25,7 @@ public class Event {
     String title;
 
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date date;
 
     @Column(nullable = false)
@@ -33,6 +36,9 @@ public class Event {
 
     @Column(nullable = false)
     Double price;
+
+    @Column(nullable = true)
+    String category; // Novo campo da História de Usuário 1
 
     @Lob
     @Column(columnDefinition = "LONGTEXT", nullable = true)
@@ -56,6 +62,14 @@ public class Event {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 
     public String getTitle() {
@@ -82,7 +96,7 @@ public class Event {
         return imageBase64;
     }
 
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
+    public String getCategory() {
+        return category;
     }
 }

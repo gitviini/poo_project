@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <script
+      src="https://kit.fontawesome.com/5684532330.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <form th:action="@{/admin/event/save}" th:object="${event}" method="post">
+      <input type="text" th:field="*{title}" placeholder="Título" required />
+      <input type="date" th:field="*{date}" required />
+
+      <select name="category" th:field="*{category}" required>
+        <option value="show">Show</option>
+        <option value="futebol">Futebol</option>
+        <option value="cultural">Cultural</option>
+      </select>
+
+      <!-- <input
+        type="text"
+        th:field="*{category}"
+        placeholder="Categoria (ex: Show, Futebol)"
+        required
+      /> -->
+      <textarea th:field="*{description}" placeholder="Descrição"></textarea>
+
+      <select name="currency" th:field="*{currency}" required>
+        <option value="BRL">Real (R$)</option>
+        <option value="USD">Dólar (US$)</option>
+      </select>
+
+      <input
+        type="number"
+        step="0.01"
+        th:field="*{price}"
+        placeholder="Preço do Ingresso (Ex: 50.00)"
+        required
+      />
+
+      <input type="hidden" id="imageBase64" th:field="*{imageBase64}" />
+
+      <label>Capa do Evento:</label>
+      <input
+        type="file"
+        id="imageInput"
+        accept="image/*"
+        onchange="previewImage()"
+      />
+
+      <div id="previewContainer" style="margin: 10px 0">
+        <img
+          id="imagePreview"
+          src="#"
+          alt="Prévia"
+          style="display: none; max-width: 200px; border-radius: 8px"
+        />
+      </div>
+
+      <button type="submit">Publicar Evento</button>
+    </form>
+
+    <script>
+      function previewImage() {
+        const file = document.getElementById("imageInput").files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = function () {
+          // Exibe a prévia
+          const preview = document.getElementById("imagePreview");
+          preview.src = reader.result;
+          preview.style.display = "block";
+
+          // Salva o valor no campo oculto para o Spring Boot receber
+          document.getElementById("imageBase64").value = reader.result;
+        };
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
+  </body>
+</html>

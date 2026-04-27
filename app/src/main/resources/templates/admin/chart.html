@@ -1,0 +1,76 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <body>
+    <th:block th:fragment="chart">
+      <div class="container-stats">
+        <h3>Estatísticas</h3>
+        <br>
+        <div
+          class="stats-grid"
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+          "
+        >
+          <div class="card">
+            Média:
+            <span th:text="${#numbers.formatDecimal(stats.mean, 1, 2)}"></span>
+          </div>
+          <div class="card">
+            Mediana:
+            <span
+              th:text="${#numbers.formatDecimal(stats.median, 1, 2)}"
+            ></span>
+          </div>
+          <div class="card">
+            Desvio Padrão:
+            <span
+              th:text="${#numbers.formatDecimal(stats.standardDeviation, 1, 2)}"
+            ></span>
+          </div>
+        </div>
+
+        <form method="get" action="/admin/dashboard">
+          <select name="category" onchange="this.form.submit()">
+            <option value="">Todas as categorias</option>
+            <option value="show">Show</option>
+            <option value="futebol">Futebol</option>
+            <option value="cultural">Cultural</option>
+          </select>
+        </form>
+
+        <canvas id="flowChart" width="400" height="150"></canvas>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script th:inline="javascript">
+            const options = document.querySelectorAll("form select[name='category'] option");
+            const urlParams = new URLSearchParams(window.location.search);
+            const category = urlParams.get('category'); 
+
+            options.forEach(element => {
+                if(element.value == category){
+                    element.selected = true;
+                }
+            });
+
+          const ctx = document.getElementById('flowChart').getContext('2d');
+          const data = [[${stats.attendanceFlow}]];
+
+          new Chart(ctx, {
+              type: 'line',
+              data: {
+                  labels: data.map((_, i) => 'Evento ' + (i + 1)),
+                  datasets: [{
+                      label: 'Fluxo de Pessoas',
+                      data: data,
+                      borderColor: '#007bff',
+                      fill: false
+                  }]
+              }
+          });
+        </script>
+      </div></th:block
+    >
+  </body>
+</html>

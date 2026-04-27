@@ -36,11 +36,13 @@ body {
 }
 
 .btn {
+  display: block;
   padding: 0.75rem;
   border: none;
   border-radius: 1rem;
   cursor: pointer;
   transition: 0.2s;
+  text-decoration: none;
 
   &.auth {
     background-image: linear-gradient(to right, #026c9e, #00426b);
@@ -121,9 +123,15 @@ body {
   }
 }
 
+button{
+  cursor: pointer;
+}
+
 .icon{
   color: black;
   transition: 0.2s;
+  border: none;
+  background-color: transparent;
 
   &:hover{
     background-color: #00000010;
