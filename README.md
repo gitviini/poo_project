@@ -17,3 +17,7 @@ Por meio de visualização de eventos, sugestões da comunidade, agendamento de 
 ## Histórias do Usuário
 
 [Link do docs com as histórias](https://docs.google.com/document/d/1KWlPidcQ92aUug70fZkmI_qkIZW4cUPOScy_DsjK9yk/edit?usp=sharing)
+
+## Organização e Gereciamento do Projeto 
+📌 **Link do Quadro:** [Trello](https://trello.com/b/bcmORomh/projeto-poo)
+
