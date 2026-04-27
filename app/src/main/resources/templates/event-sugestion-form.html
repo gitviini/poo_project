@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="pt-br">
+  <body>
+    <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sujestão</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/default-form.css" />
+    <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <header class="header">
+      <a href="/" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
+      <h3>Enviar sujestão de evento</h3>
+    </header>
+    <main>
+    <form class="default-form" th:action="@{/event/sugestion/save}" th:object="${sugestion}" method="post">
+      <input class="input second" type="text" th:field="*{title}" placeholder="Título" required />
+
+      <textarea class="input second" th:field="*{description}" placeholder="Descrição"></textarea>
+
+      <button class="btn primary" type="submit">Enviar sujestão</button>
+    </form>
+
+    </main>
+  </body>
+</html>

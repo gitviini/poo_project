@@ -121,6 +121,7 @@ async function loadEvents() {
   // Se o formulário de filtro estiver visível e o input tiver valor, adiciona na busca
   if (filterForm.classList.contains("visible") && filterInput.value) {
     params.append(filterInput.name, filterInput.value);
+    filterInput.value = "";
   }
 
   // Se quiser integrar a barra de pesquisa de texto também (assumindo que o backend aceite 'title')

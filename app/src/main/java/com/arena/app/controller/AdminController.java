@@ -43,6 +43,10 @@ public class AdminController {
         return "admin/dashboard";
     }
 
+    /* 
+    --- PRIVATE EVENT HANDLERS ---
+     */
+
     @GetMapping("event/new")
     public String showRegistrationForm(Model model) {
         model.addAttribute("event", new Event());
