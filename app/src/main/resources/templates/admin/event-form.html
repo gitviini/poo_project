@@ -1,22 +1,26 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
+  <body>
+    <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>Event</title>
     <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
     <link rel="stylesheet" href="/css/global.css" />
-    <script
-      src="https://kit.fontawesome.com/5684532330.js"
-      crossorigin="anonymous"
-    ></script>
+    <link rel="stylesheet" href="/css/event.css" />
+    <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
   </head>
   <body>
-    <form th:action="@{/admin/event/save}" th:object="${event}" method="post">
-      <input type="text" th:field="*{title}" placeholder="Título" required />
-      <input type="date" th:field="*{date}" required />
+    <header class="header">
+      <a href="/admin/dashboard" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
+      <h3>Criação de eventos</h3>
+    </header>
+    <main>
+    <form class="event-form" th:action="@{/admin/event/save}" th:object="${event}" method="post">
+      <input class="input second" type="text" th:field="*{title}" placeholder="Título" required />
+      <input class="input second" type="date" th:field="*{date}" required />
 
-      <select name="category" th:field="*{category}" required>
+      <select class="btn second" name="category" th:field="*{category}" required>
         <option value="show">Show</option>
         <option value="futebol">Futebol</option>
         <option value="cultural">Cultural</option>
@@ -28,14 +32,15 @@
         placeholder="Categoria (ex: Show, Futebol)"
         required
       /> -->
-      <textarea th:field="*{description}" placeholder="Descrição"></textarea>
+      <textarea class="input second" th:field="*{description}" placeholder="Descrição"></textarea>
 
-      <select name="currency" th:field="*{currency}" required>
+      <select class="btn second" name="currency" th:field="*{currency}" required>
         <option value="BRL">Real (R$)</option>
         <option value="USD">Dólar (US$)</option>
       </select>
 
       <input
+        class="input second"
         type="number"
         step="0.01"
         th:field="*{price}"
@@ -43,9 +48,9 @@
         required
       />
 
-      <input type="hidden" id="imageBase64" th:field="*{imageBase64}" />
+      <input class="input second" type="hidden" id="imageBase64" th:field="*{imageBase64}" />
 
-      <label>Capa do Evento:</label>
+      <label class="label">Capa do Evento</label>
       <input
         type="file"
         id="imageInput"
@@ -62,7 +67,7 @@
         />
       </div>
 
-      <button type="submit">Publicar Evento</button>
+      <button class="btn primary" type="submit">Publicar Evento</button>
     </form>
 
     <script>
@@ -85,5 +90,6 @@
         }
       }
     </script>
+    </main>
   </body>
 </html>
