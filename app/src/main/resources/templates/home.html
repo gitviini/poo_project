@@ -54,41 +54,39 @@
         </div>
 
         <div class="container-filters">
-          <p>*Escolha o filtro</p>
-
-          <button class="btn second filter">categoria</button>
-          <button class="btn second filter">data</button>
+          <div class="filter-field">
+            <label for="filter-category">Categoria</label>
+            <input
+              type="text"
+              name="category"
+              id="filter-category"
+              class="input second"
+              placeholder="Ex.: futebol"
+            />
+          </div>
+          <div class="filter-field">
+            <label for="filter-date">Data</label>
+            <input
+              type="date"
+              name="date"
+              id="filter-date"
+              class="input second"
+            />
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn second filter-apply">
+              Aplicar
+            </button>
+            <button type="button" class="btn second filter-clear" hidden>
+              <i class="fa-solid fa-xmark"></i> Limpar
+            </button>
+          </div>
         </div>
-
-        <form class="filter-form" action="/events/filter" method="get">
-          <p>*Insira os dados</p>
-
-          <input
-            type="date"
-            name="date"
-            id="date"
-            class="input second"
-            placeholder="Insira a data"
-          />
-          <button class="btn second">Salvar</button>
-        </form>
 
         <div class="cards-event">
           <p>Carregando eventos...</p>
         </div>
-
-        <script>
-          // Carregar ao iniciar
-          document.addEventListener("DOMContentLoaded", () => loadEvents());
-        </script>
       </section>
     </main>
   </body>
-  <script>
-    let filterButton = document.querySelector(".filter-button");
-    let filtersContainer = document.querySelector(".container-filters");
-    let filterForm = document.querySelector(".filter-form");
-
-    setFilterElements(filterButton, filtersContainer, filterForm);
-  </script>
 </html>

@@ -41,26 +41,29 @@ main {
     .container-filters {
       display: none;
       flex-flow: row wrap;
-      overflow: hidden;
       gap: 1rem;
+      align-items: end;
       &.visible {
         display: flex;
       }
-      p {
-        width: 100%;
-      }
-    }
 
-    .filter-form {
-      display: none;
-      flex-flow: row wrap;
-      overflow: hidden;
-      gap: 1rem;
-      &.visible {
+      .filter-field {
         display: flex;
+        flex-flow: column;
+        gap: 0.25rem;
+        flex: 1 1 12rem;
+
+        label {
+          font-size: 0.85rem;
+          color: #00000099;
+        }
       }
-      p {
-        width: 100%;
+
+      .filter-actions {
+        display: flex;
+        flex-flow: row wrap;
+        gap: 0.5rem;
+        align-items: end;
       }
     }
 
