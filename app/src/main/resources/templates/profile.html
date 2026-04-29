@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Perfil</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/profile.css" />
+    <script
+      src="https://kit.fontawesome.com/5684532330.js"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/js/profile.js"></script>
+    <style>
+      .edit-mode-only { display: none; }
+      .profile-image-container { position: relative; width: 100px; }
+      #changeImageBtn { 
+        position: absolute; 
+        bottom: 0; 
+        background: rgba(0,0,0,0.5); 
+        color: white; 
+        border: none; 
+        width: 100%; 
+        cursor: pointer; 
+        font-size: 10px;
+        padding: 4px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:insert="~{toast :: toast}"></div>
+
+    <header class="header">
+      <button onclick="window.history.back()" class="icon small">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+    </header>
+
+    <main>
+      <section>
+        <div class="container-banner">
+          <img class="banner" src="/img/arena_banner.svg" alt="" />
+          <div class="profile-image-container">
+            <img
+              th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
+              alt="Foto de Perfil"
+              width="100"
+              class="profile-image"
+              id="profileImageDisplay"
+            />
+            <button id="changeImageBtn" class="edit-mode-only">Trocar Foto</button>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;" />
+          </div>
+        </div>
+        
+        <div class="profile-field">
+          <h3 id="nameDisplay" th:text="${user.name}">Vinicius Braz</h3>
+          <input type="text" id="nameInput" class="edit-mode-only input second" th:value="${user.name}" />
+        </div>
+
+        <p id="userEmail" th:text="${user.email}">viniciusbraz102030@gmail.com</p>
+
+        <hr />
+
+        <div class="container-link">
+          <button class="btn warn" id="editProfileBtn">Editar Perfil</button>
+          <button class="btn primary edit-mode-only" id="saveProfileBtn">Salvar Alterações</button>
+          <button class="btn second edit-mode-only" id="cancelEditBtn">Cancelar</button>
+          <button class="btn danger" id="deleteAccountBtn"><i class="fa fa-regular fa-trash"></i> Apagar Conta</button>
+        </div>
+
+        <hr />
+
+        <div class="container-link profile-field">
+          <p id="bioDisplay" th:text="${user.bio}">
+            Desenvolvedor Backend (Java/Spring Boot) e estudante de ADS.
+          </p>
+          <textarea id="bioInput" class="edit-mode-only input second" th:text="${user.bio}" style="width: 100%; min-height: 100px;"></textarea>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

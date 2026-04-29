@@ -25,6 +25,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = true)
+    private String bio;
+
+    @Lob
+    @Column(columnDefinition = "LONGTEXT", nullable = true)
+    private String imageBase64;
+
     public User() {
     }
 
@@ -55,6 +62,14 @@ public class User {
         this.email = email;
     }
 
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
     public String getPhone() {
         return phone;
     }
@@ -69,5 +84,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 }

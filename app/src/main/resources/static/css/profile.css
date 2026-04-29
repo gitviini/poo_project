@@ -1,0 +1,17 @@
+@import url("/css/home.css");
+
+.container-banner {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+  .profile-image {
+    position: relative;
+    top: calc(-75px / 2);
+    width: 75px;
+    height: 75px;
+    object-fit: cover;
+    object-position: center;
+    outline: 5px solid #fff;
+    border-radius: 100%;
+  }
+}

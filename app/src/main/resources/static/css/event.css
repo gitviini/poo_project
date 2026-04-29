@@ -4,6 +4,14 @@ main {
   justify-content: center;
   padding: 2rem;
   gap: 1rem;
+
+  .event-form {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 2rem;
+    gap: 1rem;
+  }
 }
 
 .container-banner {
