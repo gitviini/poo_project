@@ -18,3 +18,29 @@ Screencast do protótipo - [ArenaConecta](https://youtu.be/0MDmpcT7xBk)
 ## Organização e Gereciamento do Projeto 
 📌 **Link do Quadro:** [Trello](https://trello.com/b/bcmORomh/projeto-poo)
 
+## Como Executar o Projeto
+
+### Pré-requisitos
+- [Docker](https://docs.docker.com/get-docker/)
+- [Docker Compose](https://docs.docker.com/compose/install/)
+
+### Execução com Docker
+
+Para facilitar o provisionamento do ambiente, o projeto utiliza Docker e Docker Compose. Siga os passos abaixo:
+
+1. Na raiz do projeto, execute o comando:
+   ```bash
+   docker-compose up --build
+   ```
+
+2. Após o build e a inicialização dos containers, a aplicação estará disponível em:
+   `http://localhost:8080`
+
+3. Para encerrar a execução:
+   ```bash
+   docker-compose down
+   ```
+
+### Persistência de Dados
+O projeto utiliza um banco de dados H2. No Docker, os dados são persistidos em um volume chamado `app-data`, garantindo que as informações não sejam perdidas ao reiniciar os containers.
+

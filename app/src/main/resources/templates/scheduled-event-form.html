@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comprar Ingresso</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/default-form.css" />
+    <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <button onclick="window.history.back()" class="icon small"><i class=" fa-solid fa-arrow-left"></i></button>
+            <h3>Comprar Ingresso</h3>
+        </div>
+    </header>
+    <main>
+        <div class="event-details" style="padding: 1rem; text-align: center;">
+            <h2 th:text="${event.title}"></h2>
+            <p th:text="${#dates.format(event.date, 'dd/MM/yyyy')}"></p>
+            <p>Preço por assento: <span th:text="${event.currency}"></span> <span th:text="${event.price}"></span></p>
+        </div>
+
+        <form class="event-form" th:action="@{/scheduled-event/save}" method="post">
+            <input type="hidden" name="email" th:value="${user.email}" />
+            <input type="hidden" name="eventTitle" th:value="${event.title}" />
+
+            <label class="label">Área da Arena</label>
+            <select class="btn second" name="arenaArea" required>
+                <option value="Norte">Norte</option>
+                <option value="Sul">Sul</option>
+                <option value="Leste">Leste</option>
+                <option value="Oeste">Oeste</option>
+                <option value="VIP">VIP</option>
+            </select>
+
+            <label class="label">Assentos (separados por vírgula)</label>
+            <input class="input second" type="text" name="seatsString" placeholder="Ex: A1, A2, B3" required />
+
+            <button class="btn primary" type="submit">Finalizar Compra</button>
+        </form>
+    </main>
+</body>
+</html>

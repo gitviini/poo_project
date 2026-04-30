@@ -1,0 +1,13 @@
+.git
+.idea
+.vscode
+**/*.iml
+**/target/
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
+data/
+app/data/
+site_preview.png
+logo.svg
+README.md

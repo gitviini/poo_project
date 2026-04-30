@@ -36,7 +36,7 @@
         <span th:text="${event.price}" class="price"></span>
       </div>
 
-      <button class="btn primary">Comprar ingresso.</button>
+      <a th:href="@{/scheduled-event/new(eventTitle=${event.title})}" class="btn primary">Comprar ingresso.</a>
     </main>
   </body>
 </html>
