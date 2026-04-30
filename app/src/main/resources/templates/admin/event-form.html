@@ -13,8 +13,10 @@
   </head>
   <body>
     <header class="header">
-      <a href="/admin/dashboard" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
-      <h3>Criação de eventos</h3>
+      <div class="header-container">
+        <a href="/admin/dashboard" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
+        <h3>Criação de eventos</h3>
+      </div>
     </header>
     <main>
     <form class="event-form" th:action="@{/admin/event/save}" th:object="${event}" method="post">

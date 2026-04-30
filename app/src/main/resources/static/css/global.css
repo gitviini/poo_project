@@ -28,10 +28,27 @@ body {
   display: flex;
   gap: 1rem;
   align-items: center;
+  justify-content: space-between;
   border-bottom: 1px solid #00000050;
 
   .logo {
     width: 32px;
+  }
+
+  .header-container {
+    justify-self: flex-end;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .profile-image {
+    width: 25px;
+    height: 25px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 100%;
   }
 }
 
@@ -58,19 +75,24 @@ body {
   &.primary {
     background-color: #026c9e;
     color: white;
-    &:hover{
-        background-color: #015b85;
+    &:hover {
+      background-color: #015b85;
     }
   }
 
-  &.second {
+  &.second,
+  &.third {
     padding: 0.5rem;
     border: 1px solid #999;
     background-color: #00000010;
     color: black;
-    &:hover{
+    &:hover {
       background-color: #00000030;
     }
+  }
+
+  &.third {
+    border-radius: 0.5rem;
   }
 
   &.warn {
@@ -80,6 +102,13 @@ body {
   &.danger {
     background-color: #ff3737d2;
   }
+}
+
+.container-icon {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .container-card {
@@ -129,26 +158,31 @@ body {
     border-radius: 0.75rem;
     background-color: #00000010;
   }
+  &.primary {
+  }
   &.second {
     border: 1px solid #999;
     border-radius: 1rem;
     background-color: #00000010;
   }
-  &.primary {
+  &.third {
+    border: 1px solid #999;
+    border-radius: 0.5rem;
+    background-color: #00000010;
   }
 }
 
-button{
+button {
   cursor: pointer;
 }
 
-.icon{
+.icon {
   color: black;
   transition: 0.2s;
   border: none;
   background-color: transparent;
 
-  &:hover{
+  &:hover {
     background-color: #00000010;
   }
 
@@ -158,6 +192,7 @@ button{
   }
 }
 a.link {
-    text-decoration: none;
-    font-family:'Verdana', sans-serif;
+  color: #000;
+  text-decoration: none;
+  font-family: "Verdana", sans-serif;
 }

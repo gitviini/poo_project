@@ -18,10 +18,25 @@
 
     <div class="container-toast"></div>
     <header class="header">
-      <img src="/img/logo.svg" class="logo" alt="" />
-      <a href="/login">login</a><br />
-      <a href="/signup">signup</a>
-      <a href="/admin/profile">profile</a>
+      <div class="header-container">
+        <img src="/img/logo.svg" class="logo" alt="" />
+        <a href="/login">login</a>
+        <a href="/signup">signup</a>
+      </div>
+
+      <a
+        class="link header-container"
+        th:href="@{/profile/{email}(email=${user.email})}"
+      >
+        <span th:text="${user.email}"></span>
+
+        <img
+          th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
+          alt="Profile image"
+          class="profile-image"
+          id="profileImageDisplay"
+        />
+      </a>
     </header>
     <main>
       <section>

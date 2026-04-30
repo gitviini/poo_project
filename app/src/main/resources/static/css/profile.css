@@ -1,17 +1,33 @@
 @import url("/css/home.css");
 
 .container-banner {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  .profile-image-container {
     display: flex;
     flex-flow: column;
     align-items: center;
-  .profile-image {
-    position: relative;
-    top: calc(-75px / 2);
-    width: 75px;
-    height: 75px;
-    object-fit: cover;
-    object-position: center;
-    outline: 5px solid #fff;
-    border-radius: 100%;
+    .profile-image {
+      position: relative;
+      top: calc(-75px / 2);
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      object-position: center;
+      outline: 5px solid #fff;
+      border-radius: 100%;
+    }
+
+    .image-icon {
+      background-color: #fff;
+      position: relative;
+      top: -60px;
+      align-self: flex-end;
+      border: 1px solid #00000020;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 100%;
+    }
   }
 }

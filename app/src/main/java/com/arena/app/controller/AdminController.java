@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.arena.app.model.Event;
 import com.arena.app.repository.EventRepository;
+import com.arena.app.repository.UserRepository;
 import com.arena.app.service.StatisticsService;
 
 import java.util.Currency;
@@ -19,13 +20,38 @@ import java.util.stream.Collectors;
 public class AdminController {
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private EventRepository eventRepository;
 
     @Autowired
     private StatisticsService statsService;
 
     @GetMapping("dashboard")
-    public String showDashboard(@RequestParam(required = false) String category, Model model) {
+    public String showDashboard(@RequestParam(required = false) String category, Model model,
+            RedirectAttributes redirectAttributes) {
+        var userOpt = userRepository.findByEmail("gvinicius105@gmail.com");
+
+        if (userOpt.isEmpty()) {
+            redirectAttributes.addFlashAttribute("toast", Map.of(
+                    "message", "Perfil não encontrado",
+                    "statusCode", 500));
+            return "redirect:/login";
+        }
+
+        var user = userOpt.get();
+
+        /*
+         * --- EXAMPLE: CREATION TOAST ---
+         * 
+         * model.addAttribute("toast", Map.of(
+         * "message", "Operação realizada com sucesso!",
+         * "statusCode", 200));
+         */
+
+        model.addAttribute("user", user);
+
         List<Event> events = null;
 
         // Reaproveitando a lógica de filtragem existente
@@ -33,8 +59,8 @@ public class AdminController {
             events = eventRepository.findAll().stream()
                     .filter(e -> category.equalsIgnoreCase(e.getCategory()))
                     .collect(Collectors.toList());
-        } 
-        if (events == null || events.isEmpty()){
+        }
+        if (events == null || events.isEmpty()) {
             events = eventRepository.findAll();
         }
 
@@ -43,8 +69,8 @@ public class AdminController {
         return "admin/dashboard";
     }
 
-    /* 
-    --- PRIVATE EVENT HANDLERS ---
+    /*
+     * --- PRIVATE EVENT HANDLERS ---
      */
 
     @GetMapping("event/new")

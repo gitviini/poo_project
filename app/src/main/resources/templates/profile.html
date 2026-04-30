@@ -12,20 +12,11 @@
       crossorigin="anonymous"
     ></script>
     <script src="/js/profile.js"></script>
+    <script src="/js/searchFilterScheduledEvent.js"></script>
     <style>
       .edit-mode-only { display: none; }
       .profile-image-container { position: relative; width: 100px; }
-      #changeImageBtn { 
-        position: absolute; 
-        bottom: 0; 
-        background: rgba(0,0,0,0.5); 
-        color: white; 
-        border: none; 
-        width: 100%; 
-        cursor: pointer; 
-        font-size: 10px;
-        padding: 4px 0;
-      }
+      .container-filters.visible { display: flex; }
     </style>
   </head>
   <body>
@@ -44,40 +35,102 @@
           <div class="profile-image-container">
             <img
               th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
-              alt="Foto de Perfil"
-              width="100"
+              alt="Profile image"
               class="profile-image"
               id="profileImageDisplay"
             />
-            <button id="changeImageBtn" class="edit-mode-only">Trocar Foto</button>
+            <button id="changeImageBtn" class="edit-mode-only icon image-icon"><i class="fa fa-solid fa-image"></i></button>
             <input type="file" id="fileInput" accept="image/*" style="display: none;" />
           </div>
         </div>
         
-        <div class="profile-field">
-          <h3 id="nameDisplay" th:text="${user.name}">Vinicius Braz</h3>
-          <input type="text" id="nameInput" class="edit-mode-only input second" th:value="${user.name}" />
+        <div class="container-icon">
+          <i class="fa-solid fa-circle-info"></i>
+          <h3 class="title">Sobre</h3>
         </div>
 
-        <p id="userEmail" th:text="${user.email}">viniciusbraz102030@gmail.com</p>
+        <hr />
+
+        <label for="nameDisplay" class="label">Nome</label>
+        <div class="profile-field">
+          <span id="nameDisplay" th:text="${user.name}">Vinicius Braz</span>
+          <input type="text" id="nameInput" class="edit-mode-only input third" th:value="${user.name}" />
+        </div>
+
+        <label for="userEmail" class="label">Email</label>
+        <p id="userEmail" th:text="${user.email}">example@gmail.com</p>
+
+        <div class="container-link profile-field">
+          <p id="bioDisplay" th:text="${user.bio}">
+            Desenvolvedor Backend (Java/Spring Boot) e estudante de ADS.
+          </p>
+          <label for="bioInput" class="label">Biografia</label>
+          <div th:if="${#strings.isEmpty(user.bio)}">
+            <p>*Edite para adicionar uma biografia.</p>
+          </div>
+          <textarea id="bioInput" class="edit-mode-only input third" th:text="${user.bio}" style="width: 100%; min-height: 100px;" placeholder="Escreva sua biografia."></textarea>
+        </div>
+
+        <br>
+
+        <div class="container-icon">
+          <i class="fa-solid fa-gear"></i>
+          <h3 class="title">Configuração</h3>
+        </div>
 
         <hr />
 
         <div class="container-link">
           <button class="btn warn" id="editProfileBtn">Editar Perfil</button>
           <button class="btn primary edit-mode-only" id="saveProfileBtn">Salvar Alterações</button>
-          <button class="btn second edit-mode-only" id="cancelEditBtn">Cancelar</button>
+          <button class="btn danger edit-mode-only" id="cancelEditBtn">Cancelar</button>
           <button class="btn danger" id="deleteAccountBtn"><i class="fa fa-regular fa-trash"></i> Apagar Conta</button>
+        </div>
+
+        <br>
+
+        <div class="container-icon">
+          <i class="fa-solid fa-calendar-check"></i>
+          <h3 class="title">Meus Agendamentos</h3>
         </div>
 
         <hr />
 
-        <div class="container-link profile-field">
-          <p id="bioDisplay" th:text="${user.bio}">
-            Desenvolvedor Backend (Java/Spring Boot) e estudante de ADS.
-          </p>
-          <textarea id="bioInput" class="edit-mode-only input second" th:text="${user.bio}" style="width: 100%; min-height: 100px;"></textarea>
+        <div class="container-search-bar-and-filter">
+          <input
+            type="text"
+            class="input second search-bar"
+            placeholder="Pesquise por agendamentos"
+          />
+          <button class="btn second filter filter-button">
+            <i class="fa-solid fa-filter"></i>
+          </button>
         </div>
+
+        <div class="container-filters" style="display: none;">
+          <div class="filter-field">
+            <label for="filter-date">Data</label>
+            <input
+              type="date"
+              name="date"
+              id="filter-date"
+              class="input second"
+            />
+          </div>
+          <div class="filter-actions">
+            <button type="button" class="btn second filter-apply">
+              Aplicar
+            </button>
+            <button type="button" class="btn second filter-clear" hidden>
+              <i class="fa-solid fa-xmark"></i> Limpar
+            </button>
+          </div>
+        </div>
+
+        <div class="cards-scheduled-event cards-event">
+          <p>Carregando agendamentos...</p>
+        </div>
+
       </section>
     </main>
   </body>

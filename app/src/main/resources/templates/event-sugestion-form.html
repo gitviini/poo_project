@@ -12,8 +12,10 @@
   </head>
   <body>
     <header class="header">
-      <a href="/" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
-      <h3>Enviar sujestão de evento</h3>
+      <div class="header-container">
+        <a href="/" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
+        <h3>Enviar sujestão de evento</h3>
+      </div>
     </header>
     <main>
     <form class="default-form" th:action="@{/event/sugestion/save}" th:object="${sugestion}" method="post">
