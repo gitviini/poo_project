@@ -8,15 +8,12 @@ Por meio de visualização de eventos, sugestões da comunidade, agendamento de 
 
 # Entrega 1
 
-## Protótipo de Lo-Fi
+7 Histórias de Usuário definidas - [Histórias](https://docs.google.com/document/d/1KWlPidcQ92aUug70fZkmI_qkIZW4cUPOScy_DsjK9yk/edit?usp=sharing)
 
-[Link do figma (Visualização) - ArenaConecta](https://www.figma.com/design/ByptxHRdrb732CSxq2tfYd/POO?node-id=0-1&t=kt371WjXbgAD5Phl-1)
+Protótipo de Lo-Fi com 5 histórias definidas - [Figma - ArenaConecta](https://www.figma.com/design/ByptxHRdrb732CSxq2tfYd/POO?node-id=0-1&t=kt371WjXbgAD5Phl-1)
+
+Screencast do protótipo - [ArenaConecta](https://youtu.be/0MDmpcT7xBk)
 <br/>
-[Link do youtube - ArenaConecta](https://youtu.be/0MDmpcT7xBk)
-
-## Histórias do Usuário
-
-[Link do docs com as histórias](https://docs.google.com/document/d/1KWlPidcQ92aUug70fZkmI_qkIZW4cUPOScy_DsjK9yk/edit?usp=sharing)
 
 ## Organização e Gereciamento do Projeto 
 📌 **Link do Quadro:** [Trello](https://trello.com/b/bcmORomh/projeto-poo)
