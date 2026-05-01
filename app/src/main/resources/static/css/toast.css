@@ -26,6 +26,12 @@
     border-left: 5px solid #1e7e34;
 }
 
+.toast-warning {
+    background-color: #ffcc00;
+    border-left: 5px solid #eb9d00;
+    color: #000;
+}
+
 .toast-error {
     background-color: #dc3545;
     border-left: 5px solid #bd2130;

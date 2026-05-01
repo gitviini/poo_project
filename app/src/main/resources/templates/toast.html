@@ -9,7 +9,8 @@
       >
         <div
           class="toast-card"
-          th:classappend="${toast.statusCode >= 200 && toast.statusCode < 300} ? 'toast-success' : 'toast-error'"
+          
+          th:classappend="${toast.statusCode >= 200 && toast.statusCode < 300} ? 'toast-success' : (${toast.statusCode >= 300 && toast.statusCode < 500} ? 'toast-warning' : 'toast-error')"
         >
           <div class="toast-content">
             <i

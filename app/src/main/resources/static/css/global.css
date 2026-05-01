@@ -192,13 +192,10 @@ button {
   }
 }
 a.link {
-  color: #1883FF;
+  color: #000;
   text-decoration: none;
   font-family: "Verdana", sans-serif;
   transition: color 0.3s ease;
-}
-a.link:hover {
-    color: #E3242B;
 }
 
 .icon-small {
@@ -225,24 +222,4 @@ label {
 label img.icon-small {
     width: 16px;
     height: 16px;
-}
-
-.btn auth primary {
-    display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        border: none;
-        border-radius: 0.5rem;
-        background-color: #026c9e;
-        color: white;
-        font-size: 1rem;
-        cursor: pointer;
-        transition: transform 0.5s ease, background-color 0.3s ease, color 0.3s ease;
-}
-
-button:hover {
-    transform: scale(1.1);
-    background-color: #1883FF;
-    color: #1883FF;
 }
