@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
     <link rel="stylesheet" href="/css/global.css" />
     <link rel="stylesheet" href="/css/default-form.css" />
+    <link rel="stylesheet" href="/css/scheduled-event-form.css" />
     <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -23,7 +24,7 @@
             <p>Preço por assento: <span th:text="${event.currency}"></span> <span th:text="${event.price}"></span></p>
         </div>
 
-        <form class="event-form" th:action="@{/scheduled-event/save}" method="post">
+        <form class="scheduled-event-form" th:action="@{/scheduled-event/save}" method="post">
             <input type="hidden" name="email" th:value="${user.email}" />
             <input type="hidden" name="eventTitle" th:value="${event.title}" />
 
