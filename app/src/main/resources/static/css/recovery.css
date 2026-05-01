@@ -1,0 +1,29 @@
+.container-images, #form-container-recovery {
+    flex: 1;
+}
+
+#form-container-recovery {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-left: 1px solid #00000050;
+    padding-top: 2rem;
+}
+
+#sucess-container {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-left: 1px solid #00000050;
+    flex: 1; /* Ensures it takes the same space as #form-container-recovery */
+    padding-top: 2rem; /* Matches the padding of #form-container-recovery */
+}
+
+.voltar-link {
+    color: #1883FF;
+    text-decoration: none;
+}
