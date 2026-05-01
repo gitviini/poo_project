@@ -192,7 +192,57 @@ button {
   }
 }
 a.link {
-  color: #000;
+  color: #1883FF;
   text-decoration: none;
   font-family: "Verdana", sans-serif;
+  transition: color 0.3s ease;
+}
+a.link:hover {
+    color: #E3242B;
+}
+
+.icon-small {
+    width: 16px;
+    height: 16px;
+    margin-right: 0.5rem;
+    vertical-align: middle;
+    display: inline-block;
+    transition: transform 0.7s ease, filter 0.3s ease;
+    filter: brightness(0) saturate(100%) invert(20%) sepia(80%) saturate(500%) hue-rotate(190deg);
+}
+
+.icon-small:hover {
+    transform: rotate(360deg) scale(1.6);
+    filter: brightness(0) saturate(100%) invert(40%) sepia(100%) saturate(500%) hue-rotate(200deg);
+}
+
+label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+label img.icon-small {
+    width: 16px;
+    height: 16px;
+}
+
+.btn auth primary {
+    display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        background-color: #026c9e;
+        color: white;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: transform 0.5s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+button:hover {
+    transform: scale(1.1);
+    background-color: #1883FF;
+    color: #1883FF;
 }

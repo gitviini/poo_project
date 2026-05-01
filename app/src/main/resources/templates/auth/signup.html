@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon">
     <link rel="stylesheet" href="/css/global.css">
     <link rel="stylesheet" href="/css/auth.css">
+    <script src="/js/script.js"></script>
 </head>
 <body>
     <main>
@@ -18,17 +19,28 @@
         <div class="container-form">
             <h2 class="title">Bem vindo a Arena!</h2>
             <form action="/signup" method="post">
-                <label for="name">Nome</label>
-                <input name="name" class="input auth" type="text">
-                <label for="email">Email</label>
-                <input name="email" class="input auth" type="email">
-                <label for="telefone">Telefone</label>
-                <input name="telefone" class="input auth" type="text">
-                <label for="password">Senha</label>
-                <input name="password" class="input auth" type="password">
+                <label for="name">
+                    Nome
+                    <img src="/img/icons/user-regular-full.svg" alt="" class="icon-small"></label>
+                <input id="name" name="name" class="input auth" type="text" placeholder="Digite o seu nome completo">
+                <label for="email">
+                    Email
+                    <img src="/img/icons/envelope-solid-full.svg" alt="" class="icon-small"></label>
+                <input id="email" name="email" class="input auth" type="email" placeholder="Digite o seu email">
+                <label for="telefone">
+                    Telefone
+                    <img src="/img/icons/phone-solid-full.svg" alt="" class="icon-small"></label>
+                <input id="telefone" name="telefone" class="input auth" type="text" placeholder="(11) 99999-9999">
+                <label for="password">
+                    Senha
+                    <img src="/img/icons/lock-solid-full.svg" alt="" class="icon-small"></label>
+                <input id="password" name="password" class="input auth" type="password" placeholder="Crie sua senha segura">
                 <button class="btn auth primary">Cadastrar</button>
             </form>
-            <a href="/login" class="link">Já é cadastrado? Entrar.</a>
+            <div class="container-link">
+            <p>Já possui conta?</p>
+            <a href="/login" class="link">Entrar</a>
+            </div>
         </div>
     </main>
 </body>
