@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const bioDisplay = document.getElementById("bioDisplay");
     const bioInput = document.getElementById("bioInput");
     const profileImageDisplay = document.getElementById("profileImageDisplay");
-    const userEmailElement = document.getElementById("userEmail");
+    const userIdElement = document.getElementById("userId");
 
     let currentBase64Image = null;
 
@@ -72,10 +72,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function updateProfile(data) {
-        const email = userEmailElement.innerText;
+        const userId = userIdElement.innerText;
         
         try {
-            const response = await fetch(`/profile/${email}`, {
+            const response = await fetch(`/profile/${userId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

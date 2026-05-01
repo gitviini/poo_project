@@ -19,22 +19,26 @@
         <div class="container-form">
             <h2 class="title">Bem vindo a Arena!</h2>
             <form action="/signup" method="post">
+                <label for="userId">
+                    ID de Usuário
+                    <img src="/img/icons/user-regular-full.svg" alt="" class="icon-small"></label>
+                <input id="userId" name="userId" class="input auth" type="text" maxlength="25" placeholder="Crie um ID único (ex: joao123)" required>
                 <label for="name">
                     Nome
                     <img src="/img/icons/user-regular-full.svg" alt="" class="icon-small"></label>
-                <input id="name" name="name" class="input auth" type="text" placeholder="Digite o seu nome completo">
+                <input id="name" name="name" class="input auth" type="text" placeholder="Digite o seu nome completo" required>
                 <label for="email">
                     Email
                     <img src="/img/icons/envelope-solid-full.svg" alt="" class="icon-small"></label>
-                <input id="email" name="email" class="input auth" type="email" placeholder="Digite o seu email">
-                <label for="telefone">
+                <input id="email" name="email" class="input auth" type="email" placeholder="Digite o seu email" required>
+                <label for="phone">
                     Telefone
                     <img src="/img/icons/phone-solid-full.svg" alt="" class="icon-small"></label>
-                <input id="telefone" name="telefone" class="input auth" type="text" placeholder="(11) 99999-9999">
+                <input id="phone" name="phone" class="input auth" type="text" placeholder="(11) 99999-9999" required>
                 <label for="password">
                     Senha
                     <img src="/img/icons/lock-solid-full.svg" alt="" class="icon-small"></label>
-                <input id="password" name="password" class="input auth" type="password" placeholder="Crie sua senha segura">
+                <input id="password" name="password" class="input auth" type="password" placeholder="Crie sua senha segura" required>
                 <button class="btn auth primary">Cadastrar</button>
             </form>
             <div class="container-link">

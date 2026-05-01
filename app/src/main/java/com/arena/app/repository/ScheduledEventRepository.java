@@ -10,5 +10,5 @@ import com.arena.app.model.ScheduledEvent;
 
 @Repository
 public interface ScheduledEventRepository extends JpaRepository<ScheduledEvent, UUID> {
-    List<ScheduledEvent> findByUserEmail(String email);
+    List<ScheduledEvent> findByUserUserId(String userId);
 }

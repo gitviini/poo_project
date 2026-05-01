@@ -34,7 +34,7 @@ public class AuthController {
     @PostMapping("/login")
     public String postLogin(@ModelAttribute LoginUserDTO entity, RedirectAttributes redirectAttributes) {
 
-        var userOpt = userRepository.findByEmail(entity.getEmail());
+        var userOpt = userRepository.findByUserId(entity.getUserId());
 
         if(userOpt.isEmpty()){
             redirectAttributes.addFlashAttribute("toast", Map.of(
@@ -61,11 +61,11 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public String postLogin(@ModelAttribute SignupUserDTO entity, RedirectAttributes redirectAttributes) {
+    public String postSignup(@ModelAttribute SignupUserDTO entity, RedirectAttributes redirectAttributes) {
 
-        if(userRepository.existsByEmail(entity.getEmail())){
+        if(userRepository.existsByEmail(entity.getEmail()) || userRepository.existsByUserId(entity.getUserId())){
             redirectAttributes.addFlashAttribute("toast", Map.of(
-                    "message", "E-mail já cadastrado.",
+                    "message", "E-mail ou ID de usuário já cadastrado.",
                     "statusCode", 402));
             return "redirect:/signup";
         }

@@ -23,10 +23,10 @@ async function loadScheduledEvents() {
   const searchBar = document.querySelector(
     ".container-search-bar-and-filter input.search-bar",
   );
-  const userEmail = document.getElementById("userEmail").innerText;
+  const userId = document.getElementById("userId").innerText;
 
   const params = new URLSearchParams();
-  params.append("email", userEmail);
+  params.append("userId", userId);
 
   getFilterInputs().forEach((input) => {
     if (input.value) params.append(input.name, input.value);

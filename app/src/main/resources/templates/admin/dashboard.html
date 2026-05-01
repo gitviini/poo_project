@@ -26,9 +26,9 @@
 
       <a
         class="link header-container"
-        th:href="@{/profile/{email}(email=${user.email})}"
+        th:href="@{/profile/{userId}(userId=${user.userId})}"
       >
-        <span th:text="${user.email}"></span>
+        <span th:text="${user.userId}"></span>
 
         <img
           th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"

@@ -17,6 +17,9 @@ public class User {
     @Column(nullable = false)
     private String name;
 
+    @Column(unique = true, nullable = true, length = 25)
+    private String userId;
+
     @Column(unique = true, nullable = false)
     private String email;
 
@@ -36,6 +39,7 @@ public class User {
     }
 
     public User(SignupUserDTO newUser) {
+        this.userId = newUser.getUserId();
         this.name = newUser.getName();
         this.email = newUser.getEmail();
         this.phone = newUser.getPhone();
@@ -44,6 +48,14 @@ public class User {
 
     public UUID getId() {
         return id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

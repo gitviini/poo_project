@@ -3,6 +3,8 @@ package com.arena.app.dto;
 import jakarta.persistence.Column;
 
 public class SignupUserDTO {
+    @Column(nullable = false, length = 25)
+    String userId;
     @Column(nullable = false)
     String name;
     @Column(nullable = false)
@@ -12,6 +14,12 @@ public class SignupUserDTO {
     @Column(nullable = false)
     String password;
 
+    public String getUserId() {
+        return userId;
+    }
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
     public void setName(String name) {
         this.name = name;
     }

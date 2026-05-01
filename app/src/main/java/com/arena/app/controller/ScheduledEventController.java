@@ -27,14 +27,14 @@ public class ScheduledEventController {
     @Autowired
     private EventRepository eventRepository;
 
-    // 1. Endpoint GET: Retorna todos os eventos agendados de um usuário pelo email com filtros
+    // 1. Endpoint GET: Retorna todos os eventos agendados de um usuário pelo userId com filtros
     @GetMapping
-    public ResponseEntity<List<ScheduledEvent>> getScheduledEventsByEmail(
-            @RequestParam("email") String email,
+    public ResponseEntity<List<ScheduledEvent>> getScheduledEventsByUserId(
+            @RequestParam("userId") String userId,
             @RequestParam(required = false) String title,
             @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date date) {
         
-        List<ScheduledEvent> events = scheduledEventRepository.findByUserEmail(email);
+        List<ScheduledEvent> events = scheduledEventRepository.findByUserUserId(userId);
 
         List<ScheduledEvent> filteredEvents = events.stream()
                 .filter(se -> (title == null || title.isEmpty() 
@@ -53,10 +53,10 @@ public class ScheduledEventController {
     @PostMapping
     public ResponseEntity<?> createScheduledEvent(@RequestBody Map<String, Object> payload) {
         try {
-            String email = (String) payload.get("email");
+            String userId = (String) payload.get("userId");
             String eventTitle = (String) payload.get("eventTitle");
             
-            var userOpt = userRepository.findByEmail(email);
+            var userOpt = userRepository.findByUserId(userId);
             var eventOpt = eventRepository.findByTitle(eventTitle);
 
             if (userOpt.isEmpty() || eventOpt.isEmpty()) {

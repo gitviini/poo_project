@@ -25,7 +25,7 @@
         </div>
 
         <form class="scheduled-event-form" th:action="@{/scheduled-event/save}" method="post">
-            <input type="hidden" name="email" th:value="${user.email}" />
+            <input type="hidden" name="userId" th:value="${user.userId}" />
             <input type="hidden" name="eventTitle" th:value="${event.title}" />
 
             <label class="label">Área da Arena</label>

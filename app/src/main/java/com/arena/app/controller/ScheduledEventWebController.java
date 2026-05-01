@@ -40,7 +40,7 @@ public class ScheduledEventWebController {
         }
 
         // Placeholder user
-        var userOpt = userRepository.findByEmail("gvinicius105@gmail.com");
+        var userOpt = userRepository.findByUserId("gvinicius105");
         if (userOpt.isEmpty()) {
             return "redirect:/login";
         }
@@ -53,13 +53,13 @@ public class ScheduledEventWebController {
     }
 
     @PostMapping("/save")
-    public String saveScheduledEvent(@RequestParam("email") String email,
+    public String saveScheduledEvent(@RequestParam("userId") String userId,
                                      @RequestParam("eventTitle") String eventTitle,
                                      @RequestParam("arenaArea") String arenaArea,
                                      @RequestParam("seatsString") String seatsString,
                                      RedirectAttributes redirectAttributes) {
         
-        var userOpt = userRepository.findByEmail(email);
+        var userOpt = userRepository.findByUserId(userId);
         var eventOpt = eventRepository.findByTitle(eventTitle);
 
         if (userOpt.isEmpty() || eventOpt.isEmpty()) {

@@ -21,9 +21,9 @@ public class ProfileController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("/profile/{email}")
-    public String getProfile(@PathVariable("email") String email, Model model, RedirectAttributes redirectAttributes){
-        var userOpt = userRepository.findByEmail(email);
+    @GetMapping("/profile/{userId}")
+    public String getProfile(@PathVariable("userId") String userId, Model model, RedirectAttributes redirectAttributes){
+        var userOpt = userRepository.findByUserId(userId);
 
         if(userOpt.isEmpty()){
             // Configura o Toast para feedback visual do usuário
@@ -45,10 +45,10 @@ public class ProfileController {
         return "profile";
     }
 
-    @PutMapping("/profile/{email}")
+    @PutMapping("/profile/{userId}")
     @ResponseBody
-    public ResponseEntity<?> updateProfile(@PathVariable("email") String email, @RequestBody User updatedUser) {
-        var userOpt = userRepository.findByEmail(email);
+    public ResponseEntity<?> updateProfile(@PathVariable("userId") String userId, @RequestBody User updatedUser) {
+        var userOpt = userRepository.findByUserId(userId);
 
         if (userOpt.isEmpty()) {
             return ResponseEntity.status(404).body(Map.of("message", "Perfil não encontrado"));
