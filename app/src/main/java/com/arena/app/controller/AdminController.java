@@ -31,7 +31,7 @@ public class AdminController {
     @GetMapping("dashboard")
     public String showDashboard(@RequestParam(required = false) String category, Model model,
             RedirectAttributes redirectAttributes) {
-        var userOpt = userRepository.findByUserId("gvinicius");
+        var userOpt = userRepository.findByUserId("gvinicius105");
 
         if (userOpt.isEmpty()) {
             redirectAttributes.addFlashAttribute("toast", Map.of(
