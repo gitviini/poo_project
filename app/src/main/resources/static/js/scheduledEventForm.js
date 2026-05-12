@@ -40,22 +40,24 @@ function setSeats(containerSeats) {
 
   var seats = document.createElement("div");
   seats.classList.add("seats");
-
-  for (let index = 1; index <= 36; index++) {
-    let div = document.createElement("div");
-
-    div.classList.add("seat");
-    div.classList.add("element");
-    div.classList.add("available");
-
-    div.onclick = function () {toggleSelectedSeat(index); div.classList.toggle("selected")};
-
-    var i = document.createElement("i");
-    i.classList.add("fa-solid");
-    i.classList.add("fa-couch");
-
-    div.appendChild(i);
-    seats.appendChild(div);
+  var alfa = "ABCDEF"
+  for (let letter = 1; letter <= 6; letter++){
+    for (let index = 1; index <= 6; index++) {
+      let div = document.createElement("div");
+      
+      div.classList.add("seat");
+      div.classList.add("element");
+      div.classList.add("available");
+      
+      div.onclick = function () {toggleSelectedSeat(alfa[letter - 1] + index); div.classList.toggle("selected")};
+      
+      var i = document.createElement("i");
+      i.classList.add("fa-solid");
+      i.classList.add("fa-couch");
+      
+      div.appendChild(i);
+      seats.appendChild(div);
+    }
   }
 
   containerSeats.appendChild(seats);
@@ -88,11 +90,14 @@ function setSeats(containerSeats) {
 }
 
 function toggleSelectedSeat(seatNumber = 0){
-  if(selectedSeats.includes(selectArea.value + seatNumber)){
-    selectedSeats.splice(selectedSeats.indexOf(seatNumber), 1);
+  if(selectedSeats.includes(seatNumber)){
+    let index = selectedSeats.indexOf(seatNumber);
+    if(index > -1){
+      selectedSeats.splice(index, 1);
+    }
   }
   else{
-    selectedSeats.push(selectArea.value + seatNumber);
+    selectedSeats.push(seatNumber);
   }
 
   if(selectedSeats.length > 0){
