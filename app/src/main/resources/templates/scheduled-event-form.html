@@ -39,11 +39,10 @@
     <form class="scheduled-event-form" th:action="@{/scheduled-event/save}" method="post">
       <input type="hidden" name="userId" th:value="${user.userId}" />
       <input type="hidden" name="eventTitle" th:value="${event.title}" />
-      <div class="container-arena">
-        <div class="container-info">
-          <span>*Escolha a área que lhe interessam</span>
-          <span><i class="fa-solid fa-circle" style="color: #0599ff"></i> Área e assentos disponiveis</span>
-        </div>
+
+      <div class="container-info">
+        <span>*Escolha a área que lhe interessam</span>
+        <span><i class="fa-solid fa-circle" style="color: #0599ff"></i> Área e assentos disponiveis</span>
       </div>
       <div class="container-input">
         <label class="label">Área da Arena</label>

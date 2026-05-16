@@ -99,11 +99,10 @@
 
 .container-arena {
   select {
-    border: none;
+    width: 100%;
   }
   option {
-    background-color: #7b8185;
-    color: white;
+    background-color: white;
   }
 }
 
