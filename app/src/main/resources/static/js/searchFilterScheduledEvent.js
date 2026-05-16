@@ -50,6 +50,8 @@ async function loadScheduledEvents() {
       return;
     }
 
+    console.log(scheduledEvents)
+
     container.innerHTML = scheduledEvents
       .map(
         // se : ScheduledEvent
@@ -58,6 +60,8 @@ async function loadScheduledEvents() {
                 <img src="${se.event.imageBase64 || "/img/arena_banner.svg"}" alt="${se.event.title}" />
                 <p class="date">${new Date(se.event.date).toLocaleDateString()} ${se.event.category || ""}</p>
                 <p class="title">${se.event.title}</p>
+                <p class="description">Preço: ${se.currency} ${se.totalPrice}</p>
+                <p class="description">Assentos: ${se.seats || ""}</p>
                 <p class="description">${se.event.description}</p>
                 </div>
                 </div>`,

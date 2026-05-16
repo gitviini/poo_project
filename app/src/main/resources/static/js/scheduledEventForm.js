@@ -1,6 +1,7 @@
 var containerSeats = document.querySelector(".container-seats");
 
 let selectedSeats = [];
+var seatsInput = document.querySelector("input[name='seatsString']");
 var containerSelectedSeats = document.querySelector(".container-selected-seats");
 var selectArea = document.querySelector("select[name='arenaArea']");
 
@@ -106,5 +107,7 @@ function toggleSelectedSeat(seatNumber = 0){
   else{
     containerSelectedSeats.innerText = "* Não há assentos selecionados.";
   }
+
+  seatsInput.value = selectedSeats.toString();
 
 }

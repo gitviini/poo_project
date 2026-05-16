@@ -29,7 +29,7 @@
         <p th:text="${#dates.format(event.date, 'dd/MM/yyyy')}"></p>
         <p>
           Preço por assento: <span th:text="${event.currency}"></span>
-          <span th:text="${event.price}"></span>
+          <span th:text="${event.price}"></span>                                              
         </p>
       </div>
 
@@ -60,44 +60,18 @@
           </select>
         </div>
 
-        <div class="container-seats">
-        <!-- <div class="numbers">
-          <div
-            th:each="i : ${#numbers.sequence(1, 6)}"
-            class="number element"
-          >
-            <span th:text="${i}"></span>
-          </div>  
-        </div> -->
-        <!-- <div class="seats">
-          <div
-            th:each="i : ${#numbers.sequence(1, 36)}"
-            class="seat element"
-            th:classappend="${ i / 2 == 0 ? 'available' : ''}"
-          >
-            <i class="fa-solid fa-couch"></i>
-          </div>
-        </div> -->
-        <!-- <div class="letters">
-          <div
-            th:with="lettersArray='ABCDEF'"
-            th:each="i : ${#numbers.sequence(0, 5)}"
-            class="letter element"
-            th:classappend="${ i / 2 == 0 ? 'available' : ''}"
-          >
-            <span th:text="${#strings.substring(lettersArray, i, i+1)}"></span>
-          </div>  
-        </div> -->
-      
-        </div>
-        <span class="container-selected-seats">* Não há assentos selecionados.</span>
-        <!-- <input
+        <input
           class="input second"
           type="text"
           name="seatsString"
           placeholder="Ex: A1, A2, B3"
+          hidden
           required
-        /> -->
+        />
+        <div class="container-seats">
+      
+        </div>
+        <span class="container-selected-seats">* Não há assentos selecionados.</span>
 
         <button class="btn primary" type="submit">Finalizar Compra</button>
       </form>

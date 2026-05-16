@@ -58,6 +58,8 @@ public class ScheduledEventWebController {
                                      @RequestParam("arenaArea") String arenaArea,
                                      @RequestParam("seatsString") String seatsString,
                                      RedirectAttributes redirectAttributes) {
+
+        System.out.println(seatsString);
         
         var userOpt = userRepository.findByUserId(userId);
         var eventOpt = eventRepository.findByTitle(eventTitle);
