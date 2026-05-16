@@ -1,55 +1,52 @@
 <!doctype html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Comprar Ingresso</title>
-    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
-    <link rel="stylesheet" href="/css/global.css" />
-    <link rel="stylesheet" href="/css/default-form.css" />
-    <link rel="stylesheet" href="/css/scheduled-event-form.css" />
-    <script src="/js/scheduledEventForm.js" defer></script>
-    <script
-      src="https://kit.fontawesome.com/5684532330.js"
-      crossorigin="anonymous"
-    ></script>
-  </head>
-  <body>
-    <header class="header">
-      <div class="header-container">
-        <button onclick="window.history.back()" class="icon small">
-          <i class="fa-solid fa-arrow-left"></i>
-        </button>
-        <h3>Comprar Ingresso</h3>
-      </div>
-    </header>
-    <main>
-      <div class="event-details" style="padding: 1rem; text-align: center">
-        <h2 th:text="${event.title}"></h2>
-        <p th:text="${#dates.format(event.date, 'dd/MM/yyyy')}"></p>
-        <p>
-          Preço por assento: <span th:text="${event.currency}"></span>
-          <span th:text="${event.price}"></span>                                              
-        </p>
-      </div>
 
-      <form
-        class="scheduled-event-form"
-        th:action="@{/scheduled-event/save}"
-        method="post"
-      >
-        <input type="hidden" name="userId" th:value="${user.userId}" />
-        <input type="hidden" name="eventTitle" th:value="${event.title}" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comprar Ingresso</title>
+  <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+  <link rel="stylesheet" href="/css/global.css" />
+  <link rel="stylesheet" href="/css/default-form.css" />
+  <link rel="stylesheet" href="/css/scheduled-event-form.css" />
+  <script src="/js/scheduledEventForm.js" defer></script>
+  <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
+</head>
 
-        <label class="label">Área da Arena</label>
-        <div class="container-arena">
-          <div class="container-info">
-            <span>*Escolha a área que lhe interessam</span>
-            <span
-              ><i class="fa-solid fa-circle" style="color: #0599ff"></i> Área e assentos disponiveis</span
-            >
-          </div>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <button onclick="window.history.back()" class="icon small">
+        <i class="fa-solid fa-arrow-left"></i>
+      </button>
+      <h3>Comprar Ingresso</h3>
+    </div>
+  </header>
+  <main class="container-sheduled-event">
+    <div class="container-banner">
+      <div th:if="${event.imageBase64}">
+        <img th:src="${event.imageBase64}" alt="" />
+      </div>
+      <div th:unless="${event.imageBase64}">
+        <img src="/img/arena_banner.svg" alt="" />
+      </div>
+    </div>
+    <div class="event-details" style="padding: 1rem; text-align: center">
+      <h2 th:text="${event.title}"></h2>
+      <p th:text="${#dates.format(event.date, 'dd/MM/yyyy')}"></p>
+    </div>
+
+    <form class="scheduled-event-form" th:action="@{/scheduled-event/save}" method="post">
+      <input type="hidden" name="userId" th:value="${user.userId}" />
+      <input type="hidden" name="eventTitle" th:value="${event.title}" />
+      <div class="container-arena">
+        <div class="container-info">
+          <span>*Escolha a área que lhe interessam</span>
+          <span><i class="fa-solid fa-circle" style="color: #0599ff"></i> Área e assentos disponiveis</span>
         </div>
+      </div>
+      <div class="container-input">
+        <label class="label">Área da Arena</label>
         <div class="container-arena">
           <select class="btn second" name="arenaArea" required>
             <option value="N">Norte</option>
@@ -60,21 +57,32 @@
           </select>
         </div>
 
-        <input
-          class="input second"
-          type="text"
-          name="seatsString"
-          placeholder="Ex: A1, A2, B3"
-          hidden
-          required
-        />
+        <input class="input second" type="text" name="seatsString" placeholder="Ex: A1, A2, B3" hidden required />
+
+        <label class="label" for="seatsString">Cadeiras</label>
+
         <div class="container-seats">
-      
+
         </div>
         <span class="container-selected-seats">* Não há assentos selecionados.</span>
+      </div>
 
+      <div class="container-price">
+        <div class="container-price-calc">
+          <p>Cadeira UNIDADE: <span th:text="${event.currency}"></span> <span th:text="${event.price}"></span></p>
+          <p>Desconto: <span th:text="${event.currency}"></span> <span th:text="${event.price}"></span></p>
+        </div>
+        <hr>
+        <p class="total">TOTAL: <span th:text="${event.currency} "></span> <span class="total-price">0.0</span></p>
+      </div>
+
+
+      <div class="container-buttons">
+        <button onclick="window.history.back()" class="btn secondary">Voltar</button>
         <button class="btn primary" type="submit">Finalizar Compra</button>
-      </form>
-    </main>
-  </body>
+      </div>
+    </form>
+  </main>
+</body>
+
 </html>
