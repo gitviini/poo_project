@@ -18,6 +18,7 @@ import com.arena.app.model.User;
 import com.arena.app.repository.EventRepository;
 import com.arena.app.repository.ScheduledEventRepository;
 import com.arena.app.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/scheduled-event")
@@ -33,20 +34,16 @@ public class ScheduledEventWebController {
     private EventRepository eventRepository;
 
     @GetMapping("/new")
-    public String showScheduledEventForm(@RequestParam("eventTitle") String eventTitle, Model model) {
+    public String showScheduledEventForm(@RequestParam("eventTitle") String eventTitle, Model model, HttpServletRequest request) {
         var eventOpt = eventRepository.findByTitle(eventTitle);
         if (eventOpt.isEmpty()) {
             return "redirect:/";
         }
 
-        // Placeholder user
-        var userOpt = userRepository.findByUserId("gvinicius105");
-        if (userOpt.isEmpty()) {
-            return "redirect:/login";
-        }
+        User user = (User) request.getAttribute("authenticatedUser");
 
         model.addAttribute("event", eventOpt.get());
-        model.addAttribute("user", userOpt.get());
+        model.addAttribute("user", user);
         model.addAttribute("scheduledEvent", new ScheduledEvent());
 
         return "scheduled-event-form";

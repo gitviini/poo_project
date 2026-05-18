@@ -36,7 +36,15 @@
         <span th:text="${event.price}" class="price"></span>
       </div>
 
-      <a th:href="@{/scheduled-event/new(eventTitle=${event.title})}" class="btn primary">Comprar ingresso.</a>
+      <div class="container-buttons">
+        <a th:href="@{/scheduled-event/new(eventTitle=${event.title})}" class="btn primary">Comprar ingresso.</a>
+        
+        <div th:if="${user != null and user.role == 'admin'}">
+          <form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este evento?')">
+            <button class="btn danger" type="submit">Deletar Evento</button>
+          </form>
+        </div>
+      </div>
     </main>
   </body>
 </html>

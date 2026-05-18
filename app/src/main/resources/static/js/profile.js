@@ -21,6 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
         nameDisplay.style.display = editing ? "none" : "block";
         bioDisplay.style.display = editing ? "none" : "block";
         editBtn.style.display = editing ? "none" : "inline-block";
+        document.getElementById("logouAccountBtn").style.display = editing ? "none" : "inline-block";
         document.getElementById("deleteAccountBtn").style.display = editing ? "none" : "inline-block";
     };
 
@@ -69,6 +70,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
             await updateProfile(data);
         });
+    }
+
+    const deleteBtn = document.getElementById("deleteAccountBtn");
+    if (deleteBtn) {
+        deleteBtn.addEventListener("click", async () => {
+            const confirmed = confirm("Tem certeza que deseja apagar sua conta? Esta ação não pode ser desfeita.");
+            if (confirmed) {
+                await deleteAccount();
+            }
+        });
+    }
+
+    async function deleteAccount() {
+        const userId = userIdElement.innerText;
+        
+        try {
+            const response = await fetch(`/profile/${userId}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                alert("Conta excluída com sucesso!");
+                window.location.href = "/";
+            } else {
+                const errorData = await response.json();
+                alert("Erro ao excluir conta: " + (errorData.message || "Erro desconhecido"));
+            }
+        } catch (error) {
+            console.error("Erro na requisição:", error);
+            alert("Erro ao conectar ao servidor.");
+        }
     }
 
     async function updateProfile(data) {

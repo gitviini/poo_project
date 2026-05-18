@@ -60,6 +60,7 @@ body {
 }
 
 .btn {
+  font-size: 1rem;
   display: block;
   padding: 0.75rem;
   border: none;
@@ -86,9 +87,6 @@ body {
     border: 1px solid #999;
     background-color: #00000010;
     color: black;
-    &:hover {
-      background-color: #00000030;
-    }
   }
 
   &.third {

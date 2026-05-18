@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.arena.app.model.User;
 import com.arena.app.repository.UserRepository;
@@ -22,7 +24,14 @@ public class ProfileController {
     UserRepository userRepository;
 
     @GetMapping("/profile/{userId}")
-    public String getProfile(@PathVariable("userId") String userId, Model model, RedirectAttributes redirectAttributes){
+    public String getProfile(@PathVariable("userId") String userId, Model model, RedirectAttributes redirectAttributes, HttpServletRequest request){
+        User authenticatedUser = (User) request.getAttribute("authenticatedUser");
+        
+        // Authorization check: User can only see their own profile, unless they are admin
+        if (!authenticatedUser.getUserId().equals(userId) && !"admin".equals(authenticatedUser.getRole())) {
+            return "redirect:/profile/" + authenticatedUser.getUserId();
+        }
+
         var userOpt = userRepository.findByUserId(userId);
 
         if(userOpt.isEmpty()){
@@ -47,7 +56,14 @@ public class ProfileController {
 
     @PutMapping("/profile/{userId}")
     @ResponseBody
-    public ResponseEntity<?> updateProfile(@PathVariable("userId") String userId, @RequestBody User updatedUser) {
+    public ResponseEntity<?> updateProfile(@PathVariable("userId") String userId, @RequestBody User updatedUser, HttpServletRequest request) {
+        User authenticatedUser = (User) request.getAttribute("authenticatedUser");
+
+        // Authorization check: User can only edit their own profile, unless they are admin
+        if (!authenticatedUser.getUserId().equals(userId) && !"admin".equals(authenticatedUser.getRole())) {
+            return ResponseEntity.status(403).body(Map.of("message", "Acesso negado"));
+        }
+
         var userOpt = userRepository.findByUserId(userId);
 
         if (userOpt.isEmpty()) {
@@ -66,5 +82,26 @@ public class ProfileController {
         userRepository.save(user);
 
         return ResponseEntity.ok(Map.of("message", "Perfil atualizado com sucesso!"));
+    }
+
+    @DeleteMapping("/profile/{userId}")
+    @ResponseBody
+    public ResponseEntity<?> deleteProfile(@PathVariable("userId") String userId, HttpServletRequest request) {
+        User authenticatedUser = (User) request.getAttribute("authenticatedUser");
+
+        // Authorization check: User can only delete their own profile, unless they are admin
+        if (!authenticatedUser.getUserId().equals(userId) && !"admin".equals(authenticatedUser.getRole())) {
+            return ResponseEntity.status(403).body(Map.of("message", "Acesso negado"));
+        }
+
+        var userOpt = userRepository.findByUserId(userId);
+
+        if (userOpt.isEmpty()) {
+            return ResponseEntity.status(404).body(Map.of("message", "Perfil não encontrado"));
+        }
+
+        userRepository.delete(userOpt.get());
+
+        return ResponseEntity.ok(Map.of("message", "Conta excluída com sucesso!"));
     }
 }

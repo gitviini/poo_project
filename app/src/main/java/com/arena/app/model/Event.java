@@ -44,6 +44,10 @@ public class Event {
     @Column(columnDefinition = "LONGTEXT", nullable = true)
     private String imageBase64;
 
+    public UUID getId() {
+        return id;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

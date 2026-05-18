@@ -15,10 +15,10 @@ import com.arena.app.dto.SignupUserDTO;
 import com.arena.app.model.User;
 import com.arena.app.repository.UserRepository;
 
+import com.arena.app.service.TokenService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @Controller("")
 public class AuthController {
@@ -26,31 +26,35 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    TokenService tokenService;
+
     @GetMapping("/login")
     public String getLogin(Model model) {
         return "auth/login";
     }
 
     @PostMapping("/login")
-    public String postLogin(@ModelAttribute LoginUserDTO entity, RedirectAttributes redirectAttributes) {
+    public String postLogin(@ModelAttribute LoginUserDTO entity, RedirectAttributes redirectAttributes, HttpServletResponse response) {
 
         var userOpt = userRepository.findByUserId(entity.getUserId());
 
-        if(userOpt.isEmpty()){
-            redirectAttributes.addFlashAttribute("toast", Map.of(
-                    "message", "Usuário não encontrado.",
-                    "statusCode", 500));
-            return "redirect:/login";
-        }
-
-        var user = userOpt.get();
-
-        if(!user.getPassword().equals(entity.getPassword())){
+        if(userOpt.isEmpty() || !tokenService.checkPassword(entity.getPassword(), userOpt.get().getPassword())){
             redirectAttributes.addFlashAttribute("toast", Map.of(
                     "message", "Login ou senha incorretos.",
                     "statusCode", 403));
             return "redirect:/login";
         }
+
+        var user = userOpt.get();
+
+        // Generate Token and Set Cookie
+        String token = tokenService.generateToken(user.getUserId(), user.getRole());
+        Cookie cookie = new Cookie("auth_token", token);
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(86400); // 1 day
+        response.addCookie(cookie);
 
         return "redirect:/";
     }
@@ -71,6 +75,8 @@ public class AuthController {
         }
 
         User newUser = new User(entity);
+        // Hash the password
+        newUser.setPassword(tokenService.hashPassword(entity.getPassword()));
 
         User createUser = userRepository.save(newUser);
 
@@ -81,7 +87,15 @@ public class AuthController {
             return "redirect:/signup";
         }
 
-        return "redirect:/";
+        return "redirect:/login";
     }
-    
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("auth_token", null);
+        cookie.setPath("/");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/login";
+    }
 }

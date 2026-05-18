@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciar Visita</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/event.css" />
+    <link rel="stylesheet" href="/css/default-form.css" />
+    <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div th:insert="~{toast :: toast}"></div>
+
+    <header class="header">
+      <div class="header-container">
+        <a href="/admin/dashboard" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
+        <h3 th:text="${visit.id == null ? 'Criar Nova Visita' : 'Editar Visita'}">Criação de Visitas</h3>
+      </div>
+    </header>
+    <main>
+    <form class="event-form" th:action="@{/admin/visit/save}" th:object="${visit}" method="post">
+      <input type="hidden" th:field="*{id}" />
+
+      <label class="label">Data da Visita</label>
+      <input class="input second" type="date" th:field="*{date}" required />
+
+      <label class="label">Horário</label>
+      <input class="input second" type="time" th:field="*{time}" required />
+
+      <label class="label">Vagas Disponíveis</label>
+      <input
+        class="input second"
+        type="number"
+        th:field="*{capacity}"
+        placeholder="Ex: 20"
+        min="1"
+        required
+      />
+
+      <label class="label">Descrição</label>
+      <textarea class="input second" th:field="*{description}" placeholder="Descreva os detalhes da visita guidada..." required style="min-height: 150px;"></textarea>
+
+      <button class="btn primary" type="submit" th:text="${visit.id == null ? 'Publicar Visita' : 'Salvar Alterações'}">Publicar Visita</button>
+    </form>
+    </main>
+  </body>
+</html>

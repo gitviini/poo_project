@@ -13,6 +13,7 @@ import com.arena.app.model.Event;
 import com.arena.app.repository.ScheduledEventRepository;
 import com.arena.app.repository.UserRepository;
 import com.arena.app.repository.EventRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/scheduled-events")
@@ -29,11 +30,17 @@ public class ScheduledEventController {
 
     // 1. Endpoint GET: Retorna todos os eventos agendados de um usuário pelo userId com filtros
     @GetMapping
-    public ResponseEntity<List<ScheduledEvent>> getScheduledEventsByUserId(
+    public ResponseEntity<?> getScheduledEventsByUserId(
             @RequestParam("userId") String userId,
             @RequestParam(required = false) String title,
-            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date date) {
+            @RequestParam(required = false) @org.springframework.format.annotation.DateTimeFormat(pattern = "yyyy-MM-dd") java.util.Date date,
+            HttpServletRequest request) {
         
+        User authenticatedUser = (User) request.getAttribute("authenticatedUser");
+        if (!authenticatedUser.getUserId().equals(userId) && !"admin".equals(authenticatedUser.getRole())) {
+            return ResponseEntity.status(403).body(Map.of("message", "Acesso negado"));
+        }
+
         List<ScheduledEvent> events = scheduledEventRepository.findByUserUserId(userId);
 
         List<ScheduledEvent> filteredEvents = events.stream()
@@ -51,9 +58,15 @@ public class ScheduledEventController {
 
     // 2. Endpoint POST: Criação de um novo evento agendado
     @PostMapping
-    public ResponseEntity<?> createScheduledEvent(@RequestBody Map<String, Object> payload) {
+    public ResponseEntity<?> createScheduledEvent(@RequestBody Map<String, Object> payload, HttpServletRequest request) {
         try {
             String userId = (String) payload.get("userId");
+            User authenticatedUser = (User) request.getAttribute("authenticatedUser");
+
+            if (!authenticatedUser.getUserId().equals(userId) && !"admin".equals(authenticatedUser.getRole())) {
+                return ResponseEntity.status(403).body(Map.of("message", "Acesso negado"));
+            }
+
             String eventTitle = (String) payload.get("eventTitle");
             
             var userOpt = userRepository.findByUserId(userId);

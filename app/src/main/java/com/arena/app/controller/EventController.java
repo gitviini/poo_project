@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.arena.app.model.Sugestion;
+import com.arena.app.model.User;
 import com.arena.app.repository.EventRepository;
 import com.arena.app.repository.SugestionRepository;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -22,10 +24,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @RequestMapping("/event")
 public class EventController {
 
-    /* 
-    --- PUBLIC EVENT HANDLERS ---
-     */
-    
     @Autowired
     EventRepository eventRepository;
 
@@ -33,7 +31,7 @@ public class EventController {
     SugestionRepository sugestionRepository;
 
     @GetMapping("{title}")
-    public String getEventByTitle(@PathVariable("title") String eventTitle, Model model) {
+    public String getEventByTitle(@PathVariable("title") String eventTitle, Model model, HttpServletRequest request) {
 
         var eventOpt = eventRepository.findByTitle(eventTitle);
 
@@ -43,6 +41,8 @@ public class EventController {
 
         var event = eventOpt.get();
 
+        User user = (User) request.getAttribute("authenticatedUser");
+        model.addAttribute("user", user);
         model.addAttribute("event", event);
 
         return "event";
@@ -50,26 +50,18 @@ public class EventController {
     
     @GetMapping("sugestion/new")
     public String showSugestionForm(Model model) {
-        // Envia uma nova instância vazia para o formulário HTML
         model.addAttribute("sugestion", new Sugestion());
-        
-        // Retorna a view do formulário (ajuste o caminho se estiver em outra pasta)
         return "event-sugestion-form";
     }
 
     @PostMapping("sugestion/save")
     public String saveSugestion(@ModelAttribute Sugestion sugestion, RedirectAttributes redirectAttributes) {
-        System.out.println(sugestion);
-
-        // O Hibernate cuidará automaticamente de gerar o UUID, createdAt e updatedAt
         sugestionRepository.save(sugestion);
 
-        // Configura o Toast para feedback visual do usuário
         redirectAttributes.addFlashAttribute("toast", Map.of(
                 "message", "Sugestão enviada com sucesso!",
                 "statusCode", 201));
 
-        // Redireciona para a Home ou para a página que preferir após o envio
         return "redirect:/"; 
     }
 }

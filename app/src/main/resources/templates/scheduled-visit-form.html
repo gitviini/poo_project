@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agendar Visita</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/event.css" />
+    <link rel="stylesheet" href="/css/default-form.css" />
+    <script src="https://kit.fontawesome.com/5684532330.js" crossorigin="anonymous"></script>
+    <style>
+      .visit-option {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .visit-option:hover {
+        background-color: #f0f0f0;
+      }
+      .visit-option.selected {
+        border-color: #026c9e;
+        background-color: #e6f2f8;
+      }
+      .visit-option input[type="radio"] {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div th:insert="~{toast :: toast}"></div>
+
+    <header class="header">
+      <div class="header-container">
+        <a href="/" class="icon small"><i class=" fa-solid fa-arrow-left"></i></a>
+        <h3>Agendamento de Visita</h3>
+      </div>
+    </header>
+    <main>
+    <form class="event-form" th:action="@{/scheduled-visit/save}" method="post">
+      
+      <label class="label">Escolha uma data e horário disponível:</label>
+      <br>
+
+      <div th:each="visit : ${visits}" class="visit-option" onclick="selectVisit(this)">
+        <input type="radio" name="visitId" th:value="${visit.id}" required />
+        <strong th:text="${#temporals.format(visit.date, 'dd/MM/yyyy')} + ' às ' + ${visit.time}"></strong>
+        <p th:text="${visit.description}" style="font-size: 0.9rem; color: #666;"></p>
+        <span style="font-size: 0.8rem; font-style: italic;" th:text="'Vagas totais: ' + ${visit.capacity}"></span>
+      </div>
+
+      <div th:if="${#lists.isEmpty(visits)}">
+        <p style="text-align: center; color: #999;">Desculpe, não há visitas disponíveis no momento.</p>
+      </div>
+
+      <label class="label">Número de pessoas</label>
+      <input class="input second" type="number" name="numberOfPeople" value="1" min="1" required />
+
+      <button th:if="${!#lists.isEmpty(visits)}" class="btn primary" type="submit">Confirmar Agendamento</button>
+    </form>
+
+    <script>
+      function selectVisit(element) {
+        document.querySelectorAll('.visit-option').forEach(opt => opt.classList.remove('selected'));
+        element.classList.add('selected');
+        element.querySelector('input[type="radio"]').checked = true;
+      }
+    </script>
+    </main>
+  </body>
+</html>

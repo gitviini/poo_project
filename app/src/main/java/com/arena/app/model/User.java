@@ -28,12 +28,18 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String role; // "user" or "admin"
+
     @Column(nullable = true)
     private String bio;
 
     @Lob
     @Column(columnDefinition = "LONGTEXT", nullable = true)
     private String imageBase64;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private java.util.List<ScheduledEvent> scheduledEvents;
 
     public User() {
     }
@@ -44,6 +50,7 @@ public class User {
         this.email = newUser.getEmail();
         this.phone = newUser.getPhone();
         this.password = newUser.getPassword();
+        this.role = "user"; // Default role
     }
 
     public UUID getId() {
@@ -96,6 +103,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getImageBase64() {

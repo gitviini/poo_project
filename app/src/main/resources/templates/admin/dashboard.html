@@ -20,8 +20,6 @@
     <header class="header">
       <div class="header-container">
         <img src="/img/logo.svg" class="logo" alt="" />
-        <a href="/login">login</a>
-        <a href="/signup">signup</a>
       </div>
 
       <a
@@ -47,6 +45,41 @@
         <div th:insert="~{admin/chart :: chart}"></div>
 
         <hr />
+
+        <div class="container-link">
+          <h3>Visitas</h3>
+          <p>*Gerencie as visitas guiadas à Arena</p>
+          <a href="/admin/visit/new" class="btn primary" style="margin-bottom: 1rem;">Adicionar nova visita</a>
+          
+          <table class="visit-table" style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+            <thead>
+              <tr style="text-align: left; border-bottom: 2px solid #00000030;">
+                <th style="padding: 0.5rem;">Data</th>
+                <th style="padding: 0.5rem;">Horário</th>
+                <th style="padding: 0.5rem;">Vagas</th>
+                <th style="padding: 0.5rem;">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="visit : ${visits}" style="border-bottom: 1px solid #00000010;">
+                <td style="padding: 0.5rem;" th:text="${#temporals.format(visit.date, 'dd/MM/yyyy')}"></td>
+                <td style="padding: 0.5rem;" th:text="${visit.time}"></td>
+                <td style="padding: 0.5rem;" th:text="${visit.capacity}"></td>
+                <td style="padding: 0.5rem;">
+                  <div style="display: flex; gap: 0.5rem;">
+                    <a th:href="@{/admin/visit/edit/{id}(id=${visit.id})}" class="btn third" style="padding: 0.25rem 0.5rem;">Editar</a>
+                    <form th:action="@{/admin/visit/delete/{id}(id=${visit.id})}" method="POST" onsubmit="return confirm('Deseja excluir esta visita?')">
+                      <button type="submit" class="btn third danger" style="padding: 0.25rem 0.5rem;">Excluir</button>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              <tr th:if="${#lists.isEmpty(visits)}">
+                <td colspan="4" style="text-align: center; padding: 1rem;">Nenhuma visita cadastrada.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <div class="container-link">
           <h3>Eventos</h3>
