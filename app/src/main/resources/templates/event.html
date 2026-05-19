@@ -39,6 +39,7 @@
       <div class="container-buttons">
         <a th:href="@{/scheduled-event/new(eventTitle=${event.title})}" class="btn primary">Comprar ingresso.</a>
         
+        <a href="/admin/event/edit/${event.id}" th:if="${user != null and user.role == 'admin'}" class="btn second">Editar</a>
         <div th:if="${user != null and user.role == 'admin'}">
           <form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este evento?')">
             <button class="btn danger" type="submit">Deletar Evento</button>

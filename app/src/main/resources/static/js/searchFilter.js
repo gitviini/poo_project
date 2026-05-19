@@ -50,22 +50,25 @@ async function loadEvents() {
     container.innerHTML = events
       .map((event) => {
         const isAdmin = window.location.pathname.includes("/admin/dashboard");
-        const deleteButton = isAdmin
-          ? `<form action="/admin/event/delete/${event.id}" method="POST" style="padding: 0 1rem 1rem 1rem;">
-                <button type="submit" class="btn danger" style="width: 100%;" onclick="return confirm('Tem certeza que deseja deletar este evento?')">Deletar</button>
-             </form>`
+        const adminActions = isAdmin
+          ? `<div class="container-buttons">
+                <a href="/admin/event/edit/${event.id}" class="btn second">Editar</a>
+                <form action="/admin/event/delete/${event.id}" method="POST">
+                    <button type="submit" class="btn second danger" onclick="return confirm('Tem certeza que deseja deletar este evento?')">Deletar</button>
+                </form>
+             </div>`
           : "";
 
-        return `<div class="container-card">
-            <a href="/event/${event.title}" style="text-decoration: none; color: inherit;">
-              <div class="card">
-                  <img src="${event.imageBase64 || "/img/arena_banner.svg"}" alt="${event.title}" />
-                  <p class="date">${new Date(event.date).toLocaleDateString()} ${event.category || ""}</p>
-                  <p class="title">${event.title}</p>
-                  <p class="description">${event.description}</p>
-              </div>
-            </a>
-            ${deleteButton}
+        return `<div class="container-card ${isAdmin ? "admin" : ""}">
+          <a href="/event/${event.title}" style="text-decoration: none; color: inherit;">
+          <div class="card">
+          <img src="${event.imageBase64 || "/img/arena_banner.svg"}" alt="${event.title}" />
+          <p class="date">${new Date(event.date).toLocaleDateString()} ${event.category || ""}</p>
+          <p class="title">${event.title}</p>
+          <p class="description">${event.description}</p>
+          </div>
+          </a>
+          ${adminActions}
           </div>`;
       })
       .join("");

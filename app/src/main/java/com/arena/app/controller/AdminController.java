@@ -69,8 +69,17 @@ public class AdminController {
         return "admin/event-form";
     }
 
+    @GetMapping("event/edit/{id}")
+    public String showEditForm(@PathVariable UUID id, Model model) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid event Id:" + id));
+        model.addAttribute("event", event);
+        return "admin/event-form";
+    }
+
     @PostMapping("event/save")
     public String saveEvent(@ModelAttribute Event event, RedirectAttributes redirectAttributes) {
+        boolean isNew = event.getId() == null;
 
         // Define valores padrão caso venham nulos do formulário
         if (event.getCurrency() == null) {
@@ -84,8 +93,8 @@ public class AdminController {
 
         // Configura o Toast para ser exibido após o redirecionamento
         redirectAttributes.addFlashAttribute("toast", Map.of(
-                "message", "Evento cadastrado com sucesso!",
-                "statusCode", 201));
+                "message", isNew ? "Evento cadastrado com sucesso!" : "Evento atualizado com sucesso!",
+                "statusCode", isNew ? 201 : 200));
 
         return "redirect:/admin/dashboard";
     }
