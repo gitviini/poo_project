@@ -15,6 +15,8 @@ Por meio de visualização de eventos, sugestões da comunidade, agendamento de 
 - 7 Histórias de Usuário definidas — [Histórias](https://docs.google.com/document/d/1KWlPidcQ92aUug70fZkmI_qkIZW4cUPOScy_DsjK9yk/edit?usp=sharing)
 - Protótipo de Lo-Fi com 5 histórias definidas — [Figma - ArenaConecta](https://www.figma.com/design/ByptxHRdrb732CSxq2tfYd/POO?node-id=0-1&t=kt371WjXbgAD5Phl-1)
 - Screencast do protótipo — [ArenaConecta](https://youtu.be/ou0nhMot37w)
+- Issue/bug tracker
+  <img width="1596" height="778" alt="image" src="https://github.com/user-attachments/assets/71f9c623-37ee-4e1c-bbd0-d3a2c67e150e" />
 
 ---
 
