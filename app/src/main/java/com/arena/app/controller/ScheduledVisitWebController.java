@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.arena.app.service.WaitlistService;
 
 import java.util.Map;
 import java.util.UUID;
@@ -25,11 +26,24 @@ public class ScheduledVisitWebController {
     @Autowired
     private VisitRepository visitRepository;
 
+    @Autowired
+    private WaitlistService waitlistService;
+
     @GetMapping("/new")
     public String showForm(Model model, HttpServletRequest request) {
         User user = (User) request.getAttribute("authenticatedUser");
         model.addAttribute("user", user);
-        model.addAttribute("visits", visitRepository.findAll());
+        
+        var visits = visitRepository.findAll();
+        java.util.Map<UUID, Integer> bookedSpotsMap = new java.util.HashMap<>();
+        for (Visit visit : visits) {
+            Integer booked = scheduledVisitRepository.countBookedPeopleByVisit(visit);
+            bookedSpotsMap.put(visit.getId(), booked != null ? booked : 0);
+        }
+        
+        model.addAttribute("visits", visits);
+        model.addAttribute("bookedSpotsMap", bookedSpotsMap);
+        
         return "scheduled-visit-form";
     }
 
@@ -47,8 +61,11 @@ public class ScheduledVisitWebController {
 
         Visit visit = visitOpt.get();
         
-        // Basic capacity check (could be improved by checking existing bookings)
-        if (numberOfPeople > visit.getCapacity()) {
+        // Correct capacity check
+        Integer bookedPeople = scheduledVisitRepository.countBookedPeopleByVisit(visit);
+        if (bookedPeople == null) bookedPeople = 0;
+        
+        if (bookedPeople + numberOfPeople > visit.getCapacity()) {
             redirectAttributes.addFlashAttribute("toast", Map.of("message", "Vagas insuficientes", "statusCode", 400));
             return "redirect:/scheduled-visit/new";
         }
@@ -66,5 +83,31 @@ public class ScheduledVisitWebController {
         ));
 
         return "redirect:/";
+    }
+
+    @PostMapping("/cancel/{id}")
+    public String cancel(@PathVariable UUID id, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        User user = (User) request.getAttribute("authenticatedUser");
+        var scheduledVisitOpt = scheduledVisitRepository.findById(id);
+
+        if (scheduledVisitOpt.isEmpty()) {
+            redirectAttributes.addFlashAttribute("toast", Map.of("message", "Agendamento não encontrado", "statusCode", 404));
+            return "redirect:/";
+        }
+
+        ScheduledVisit scheduledVisit = scheduledVisitOpt.get();
+        if (!scheduledVisit.getUser().getUserId().equals(user.getUserId()) && !"admin".equals(user.getRole())) {
+            redirectAttributes.addFlashAttribute("toast", Map.of("message", "Acesso negado", "statusCode", 403));
+            return "redirect:/";
+        }
+
+        Visit visit = scheduledVisit.getVisit();
+        scheduledVisitRepository.delete(scheduledVisit);
+        
+        // Notify waitlist
+        waitlistService.notifyWaitlistForVisit(visit);
+
+        redirectAttributes.addFlashAttribute("toast", Map.of("message", "Agendamento cancelado com sucesso!", "statusCode", 200));
+        return "redirect:/profile/" + user.getUserId();
     }
 }

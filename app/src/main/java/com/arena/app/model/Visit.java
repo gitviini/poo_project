@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -28,6 +29,12 @@ public class Visit {
 
     @Column(nullable = false, length = 1000)
     private String description;
+
+    @OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ScheduledVisit> scheduledVisits;
+
+    @OneToMany(mappedBy = "visit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WaitlistEntry> waitlistEntries;
 
     public Visit() {
     }

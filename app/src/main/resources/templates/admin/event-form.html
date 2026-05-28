@@ -30,12 +30,6 @@
         <option value="cultural">Cultural</option>
       </select>
 
-      <!-- <input
-        type="text"
-        th:field="*{category}"
-        placeholder="Categoria (ex: Show, Futebol)"
-        required
-      /> -->
       <textarea class="input second" th:field="*{description}" placeholder="Descrição"></textarea>
 
       <select class="btn second" name="currency" th:field="*{currency}" required>
@@ -50,6 +44,13 @@
         th:field="*{price}"
         placeholder="Preço do Ingresso (Ex: 50.00)"
         required
+      />
+
+      <input
+        class="input second"
+        type="number"
+        th:field="*{capacity}"
+        placeholder="Capacidade Total (Ingressos)"
       />
 
       <input class="input second" type="hidden" id="imageBase64" th:field="*{imageBase64}" />

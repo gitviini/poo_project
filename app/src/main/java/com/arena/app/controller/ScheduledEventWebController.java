@@ -18,7 +18,10 @@ import com.arena.app.model.User;
 import com.arena.app.repository.EventRepository;
 import com.arena.app.repository.ScheduledEventRepository;
 import com.arena.app.repository.UserRepository;
+import com.arena.app.service.WaitlistService;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.PathVariable;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/scheduled-event")
@@ -32,6 +35,9 @@ public class ScheduledEventWebController {
 
     @Autowired
     private EventRepository eventRepository;
+
+    @Autowired
+    private WaitlistService waitlistService;
 
     @GetMapping("/new")
     public String showScheduledEventForm(@RequestParam("eventTitle") String eventTitle, Model model, HttpServletRequest request) {
@@ -72,16 +78,29 @@ public class ScheduledEventWebController {
         Event event = eventOpt.get();
         User user = userOpt.get();
 
-        ScheduledEvent scheduledEvent = new ScheduledEvent();
-        scheduledEvent.setUser(user);
-        scheduledEvent.setEvent(event);
-        scheduledEvent.setArenaArea(arenaArea);
-        
         String[] seatsArray = seatsString.split(",");
         java.util.List<String> seatsList = java.util.stream.Stream.of(seatsArray)
                 .map(String::trim)
                 .filter(s -> !s.isEmpty())
                 .collect(java.util.stream.Collectors.toList());
+
+        // Capacity check
+        if (event.getCapacity() != null) {
+            long bookedSeats = scheduledEventRepository.countBookedSeatsByEvent(event);
+            if (bookedSeats + seatsList.size() > event.getCapacity()) {
+                redirectAttributes.addFlashAttribute("toast", Map.of(
+                    "message", "Vagas insuficientes! Capacidade esgotada.",
+                    "statusCode", 400
+                ));
+                return "redirect:/event/" + eventTitle;
+            }
+        }
+
+        ScheduledEvent scheduledEvent = new ScheduledEvent();
+        scheduledEvent.setUser(user);
+        scheduledEvent.setEvent(event);
+        scheduledEvent.setArenaArea(arenaArea);
+        
         scheduledEvent.setSeats(seatsList);
         
         scheduledEvent.setPricePerSeat(event.getPrice());
@@ -96,5 +115,31 @@ public class ScheduledEventWebController {
         ));
 
         return "redirect:/";
+    }
+
+    @PostMapping("/cancel/{id}")
+    public String cancelScheduledEvent(@PathVariable UUID id, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        User user = (User) request.getAttribute("authenticatedUser");
+        var scheduledEventOpt = scheduledEventRepository.findById(id);
+
+        if (scheduledEventOpt.isEmpty()) {
+            redirectAttributes.addFlashAttribute("toast", Map.of("message", "Agendamento não encontrado", "statusCode", 404));
+            return "redirect:/";
+        }
+
+        ScheduledEvent scheduledEvent = scheduledEventOpt.get();
+        if (!scheduledEvent.getUser().getUserId().equals(user.getUserId()) && !"admin".equals(user.getRole())) {
+            redirectAttributes.addFlashAttribute("toast", Map.of("message", "Acesso negado", "statusCode", 403));
+            return "redirect:/";
+        }
+
+        Event event = scheduledEvent.getEvent();
+        scheduledEventRepository.delete(scheduledEvent);
+        
+        // Notify waitlist
+        waitlistService.notifyWaitlistForEvent(event);
+
+        redirectAttributes.addFlashAttribute("toast", Map.of("message", "Agendamento cancelado com sucesso!", "statusCode", 200));
+        return "redirect:/profile/" + user.getUserId();
     }
 }

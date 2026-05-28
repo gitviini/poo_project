@@ -20,6 +20,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import com.arena.app.repository.ScheduledEventRepository;
+
 @Controller
 @RequestMapping("/event")
 public class EventController {
@@ -29,6 +31,9 @@ public class EventController {
 
     @Autowired
     SugestionRepository sugestionRepository;
+
+    @Autowired
+    ScheduledEventRepository scheduledEventRepository;
 
     @GetMapping("{title}")
     public String getEventByTitle(@PathVariable("title") String eventTitle, Model model, HttpServletRequest request) {
@@ -44,6 +49,11 @@ public class EventController {
         User user = (User) request.getAttribute("authenticatedUser");
         model.addAttribute("user", user);
         model.addAttribute("event", event);
+
+        // Capacity calculation
+        long bookedSeats = scheduledEventRepository.countBookedSeatsByEvent(event);
+        model.addAttribute("bookedSeats", bookedSeats);
+        model.addAttribute("isSoldOut", event.getCapacity() != null && bookedSeats >= event.getCapacity());
 
         return "event";
     }

@@ -146,7 +146,7 @@ body {
       overflow: hidden;
     }
   }
-  &.admin{
+  &.admin, &.scheduled{
     .card {
       height: 80%;
     }

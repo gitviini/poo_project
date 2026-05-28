@@ -45,11 +45,17 @@
       <label class="label">Escolha uma data e horário disponível:</label>
       <br>
 
-      <div th:each="visit : ${visits}" class="visit-option" onclick="selectVisit(this)">
-        <input type="radio" name="visitId" th:value="${visit.id}" required />
+      <div th:each="visit : ${visits}" th:with="booked=${bookedSpotsMap.get(visit.id)}, remaining=${visit.capacity - booked}" 
+           class="visit-option" th:classappend="${remaining <= 0} ? 'full' : ''" onclick="selectVisit(this)">
+        <input type="radio" name="visitId" th:value="${visit.id}" th:disabled="${remaining <= 0}" required />
         <strong th:text="${#temporals.format(visit.date, 'dd/MM/yyyy')} + ' às ' + ${visit.time}"></strong>
         <p th:text="${visit.description}" style="font-size: 0.9rem; color: #666;"></p>
-        <span style="font-size: 0.8rem; font-style: italic;" th:text="'Vagas totais: ' + ${visit.capacity}"></span>
+        <span style="font-size: 0.8rem; font-style: italic;" th:text="'Vagas: ' + ${remaining} + ' de ' + ${visit.capacity}"></span>
+        
+        <div th:if="${remaining <= 0}" style="margin-top: 10px;">
+          <span style="color: red; font-weight: bold;">ESGOTADO</span>
+          <button type="button" class="btn warn small" th:onclick="'joinWaitlist(\'' + ${visit.id} + '\')'">Entrar na Lista de Espera</button>
+        </div>
       </div>
 
       <div th:if="${#lists.isEmpty(visits)}">
@@ -62,11 +68,21 @@
       <button th:if="${!#lists.isEmpty(visits)}" class="btn primary" type="submit">Confirmar Agendamento</button>
     </form>
 
+    <form id="waitlist-form" th:action="@{/waitlist/join-visit}" method="POST" style="display: none;">
+      <input type="hidden" name="visitId" id="waitlist-visit-id" />
+    </form>
+
     <script>
       function selectVisit(element) {
+        if (element.classList.contains('full')) return;
         document.querySelectorAll('.visit-option').forEach(opt => opt.classList.remove('selected'));
         element.classList.add('selected');
         element.querySelector('input[type="radio"]').checked = true;
+      }
+
+      function joinWaitlist(visitId) {
+        document.getElementById('waitlist-visit-id').value = visitId;
+        document.getElementById('waitlist-form').submit();
       }
     </script>
     </main>

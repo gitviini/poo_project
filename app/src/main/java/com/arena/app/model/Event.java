@@ -2,16 +2,19 @@ package com.arena.app.model;
 
 import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -38,11 +41,20 @@ public class Event {
     Double price;
 
     @Column(nullable = true)
+    private Integer capacity; // Novo campo para limite de ingressos
+
+    @Column(nullable = true)
     String category; // Novo campo da História de Usuário 1
 
     @Lob
     @Column(columnDefinition = "LONGTEXT", nullable = true)
     private String imageBase64;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ScheduledEvent> scheduledEvents;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WaitlistEntry> waitlistEntries;
 
     public UUID getId() {
         return id;
@@ -72,6 +84,10 @@ public class Event {
         this.price = price;
     }
 
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
+    }
+
     public void setCategory(String category) {
         this.category = category;
     }
@@ -98,6 +114,10 @@ public class Event {
 
     public Double getPrice() {
         return price;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
     }
 
     public String getImageBase64() {
