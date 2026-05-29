@@ -4,6 +4,8 @@ let selectedSeats = [];
 var seatsInput = document.querySelector("input[name='seatsString']");
 var containerSelectedSeats = document.querySelector(".container-selected-seats");
 var selectArea = document.querySelector("select[name='arenaArea']");
+var total = document.querySelector(".total-price");
+var price = document.querySelector(".price");
 
 setSeats(containerSeats);
 
@@ -107,6 +109,8 @@ function toggleSelectedSeat(seatNumber = 0){
   else{
     containerSelectedSeats.innerText = "* Não há assentos selecionados.";
   }
+
+  total.innerHTML = selectedSeats.length * price.textContent;
 
   seatsInput.value = selectedSeats.toString();
 
