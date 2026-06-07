@@ -10,8 +10,10 @@ import com.arena.app.model.User;
 import com.arena.app.repository.EventRepository;
 import com.arena.app.repository.UserRepository;
 import com.arena.app.service.StatisticsService;
+import com.arena.app.service.BackupService;
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.nio.file.Path;
 import java.util.Currency;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,9 @@ public class AdminController {
 
     @Autowired
     private StatisticsService statsService;
+
+    @Autowired
+    private BackupService backupService;
 
     @GetMapping("dashboard")
     public String showDashboard(@RequestParam(required = false) String category, Model model,
@@ -106,6 +111,28 @@ public class AdminController {
         redirectAttributes.addFlashAttribute("toast", Map.of(
                 "message", "Evento deletado com sucesso!",
                 "statusCode", 200));
+
+        return "redirect:/admin/dashboard";
+    }
+
+    /*
+     * --- BACKUP ---
+     * Gera um backup manual do banco. Toda rota sob /admin/** ja passa pela
+     * checagem de role no AuthInterceptor, entao isto e acessivel so ao admin.
+     */
+
+    @PostMapping("backup/run")
+    public String runBackup(RedirectAttributes redirectAttributes) {
+        try {
+            Path arquivo = backupService.createBackup();
+            redirectAttributes.addFlashAttribute("toast", Map.of(
+                    "message", "Backup criado: " + arquivo.getFileName().toString(),
+                    "statusCode", 200));
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("toast", Map.of(
+                    "message", "Falha ao criar backup: " + e.getMessage(),
+                    "statusCode", 500));
+        }
 
         return "redirect:/admin/dashboard";
     }

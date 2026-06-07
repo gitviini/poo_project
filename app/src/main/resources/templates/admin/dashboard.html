@@ -31,7 +31,7 @@
         <span th:text="${user.userId}"></span>
 
         <img
-          th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
+          th:src="${user.imageBase64 != null ? user.imageBase64 : '/img/default-avatar.svg'}"
           alt="Profile image"
           class="profile-image"
           id="profileImageDisplay"
@@ -87,6 +87,15 @@
           <h3>Eventos</h3>
           <p>*Adicione eventos visíveis para todos</p>
           <a href="/admin/event/new" class="btn primary">Adicionar novo evento</a>
+        </div>
+        <hr />
+
+        <div class="container-link">
+          <h3>Backup e continuidade</h3>
+          <p>*O sistema faz backup automático todo dia às 03:00. Você também pode gerar um agora.</p>
+          <form th:action="@{/admin/backup/run}" method="POST">
+            <button type="submit" class="btn primary">Fazer backup agora</button>
+          </form>
         </div>
         <hr />
 

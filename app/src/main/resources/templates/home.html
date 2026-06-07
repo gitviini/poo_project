@@ -32,7 +32,7 @@
           <span th:text="${user.userId}"></span>
 
           <img
-            th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
+            th:src="${user.imageBase64 != null ? user.imageBase64 : '/img/default-avatar.svg'}"
             alt="Profile image"
             class="profile-image"
             id="profileImageDisplay"

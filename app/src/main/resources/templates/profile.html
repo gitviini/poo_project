@@ -34,7 +34,7 @@
           <img class="banner" src="/img/arena_banner.svg" alt="" />
           <div class="profile-image-container">
             <img
-              th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
+              th:src="${user.imageBase64 != null ? user.imageBase64 : '/img/default-avatar.svg'}"
               alt="Profile image"
               class="profile-image"
               id="profileImageDisplay"

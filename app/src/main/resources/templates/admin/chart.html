@@ -42,7 +42,13 @@
 
         <canvas id="flowChart" width="400" height="150"></canvas>
 
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <!-- Gestao de fornecedores: versao FIXADA (nao flutua com o CDN) e
+             integridade (SRI): se o arquivo do fornecedor for alterado/trocado,
+             o hash nao bate e o navegador recusa carregar o script. -->
+        <script
+          src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
+          integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+          crossorigin="anonymous"></script>
         <script th:inline="javascript">
             const options = document.querySelectorAll("form select[name='category'] option");
             const urlParams = new URLSearchParams(window.location.search);

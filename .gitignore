@@ -1,0 +1,10 @@
+# Banco de dados H2 e backups — nunca versionar dados
+data/
+backups/
+*.mv.db
+*.trace.db
+*.lock.db
+
+# Documentação interna e relatórios — entregues separadamente, não versionar
+docs/
+RESTORE.md
