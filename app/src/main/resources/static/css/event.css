@@ -28,3 +28,10 @@ main {
 .date {
   color: #00000080;
 }
+
+.container-buttons{
+  display: flex;
+  flex-flow: column;
+  gap: 1rem;
+  align-items: start;
+}

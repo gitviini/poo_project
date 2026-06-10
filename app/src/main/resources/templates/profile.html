@@ -34,7 +34,7 @@
           <img class="banner" src="/img/arena_banner.svg" alt="" />
           <div class="profile-image-container">
             <img
-              th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
+              th:src="${user.imageBase64 != null ? user.imageBase64 : '/img/default-avatar.svg'}"
               alt="Profile image"
               class="profile-image"
               id="profileImageDisplay"
@@ -84,6 +84,7 @@
         <hr />
 
         <div class="container-link">
+          <a href="/logout" id="logouAccountBtn" class="btn second"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sair</a>
           <button class="btn warn" id="editProfileBtn">Editar Perfil</button>
           <button class="btn primary edit-mode-only" id="saveProfileBtn">Salvar Alterações</button>
           <button class="btn danger edit-mode-only" id="cancelEditBtn">Cancelar</button>
@@ -91,6 +92,17 @@
         </div>
 
         <br>
+
+        <div class="container-icon">
+          <i class="fa-solid fa-bell"></i>
+          <h3 class="title">Notificações <span id="notification-badge" class="badge" style="display: none; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 0.7rem;">0</span></h3>
+        </div>
+
+        <hr />
+
+        <div id="notifications-container" style="max-height: 200px; overflow-y: auto; margin-bottom: 2rem;">
+          <p>Buscando notificações...</p>
+        </div>
 
         <div class="container-icon">
           <i class="fa-solid fa-calendar-check"></i>

@@ -48,19 +48,29 @@ async function loadEvents() {
     }
 
     container.innerHTML = events
-      .map(
-        (event) => `<a
-            class="container-card"
-            href="/event/${event.title}"
-          >
-            <div class="card">
-                <img src="${event.imageBase64 || "/img/arena_banner.svg"}" alt="${event.title}" />
-                <p class="date">${new Date(event.date).toLocaleDateString()} ${event.category || ""}</p>
-                <p class="title">${event.title}</p>
-                <p class="description">${event.description}</p>
-            </div>
-            </a>`,
-      )
+      .map((event) => {
+        const isAdmin = window.location.pathname.includes("/admin/dashboard");
+        const adminActions = isAdmin
+          ? `<div class="container-buttons">
+                <a href="/admin/event/edit/${event.id}" class="btn second">Editar</a>
+                <form action="/admin/event/delete/${event.id}" method="POST">
+                    <button type="submit" class="btn second danger" onclick="return confirm('Tem certeza que deseja deletar este evento?')">Deletar</button>
+                </form>
+             </div>`
+          : "";
+
+        return `<div class="container-card ${isAdmin ? "admin" : ""}">
+          <a href="/event/${event.title}" style="text-decoration: none; color: inherit;">
+          <div class="card">
+          <img src="${event.imageBase64 || "/img/arena_banner.svg"}" alt="${event.title}" />
+          <p class="date">${new Date(event.date).toLocaleDateString()} ${event.category || ""}</p>
+          <p class="title">${event.title}</p>
+          <p class="description">${event.description}</p>
+          </div>
+          </a>
+          ${adminActions}
+          </div>`;
+      })
       .join("");
   } catch (error) {
     console.error("Erro ao carregar eventos:", error);

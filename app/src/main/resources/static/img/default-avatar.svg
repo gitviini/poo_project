@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Avatar padrao local: substitui o servico externo picsum.photos
+       (gestao de fornecedores: sem dependencia de terceiro em runtime) -->
+  <rect width="100" height="100" fill="#e8e6e1"/>
+  <circle cx="50" cy="38" r="17" fill="#9b9890"/>
+  <path d="M50 60c-17 0-28 10-30 24a3 3 0 0 0 3 3.5h54a3 3 0 0 0 3-3.5C78 70 67 60 50 60z" fill="#9b9890"/>
+</svg>

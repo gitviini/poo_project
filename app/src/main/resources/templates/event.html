@@ -34,9 +34,30 @@
       <div class="container-price">
         <span th:text="${event.currency}" class="currency"></span>
         <span th:text="${event.price}" class="price"></span>
+        <div th:if="${event.capacity != null}" style="font-style: italic; font-size: 0.9rem; margin-top: 5px;">
+          <span th:text="'Vagas: ' + ${event.capacity - bookedSeats} + ' de ' + ${event.capacity}"></span>
+        </div>
       </div>
 
-      <a th:href="@{/scheduled-event/new(eventTitle=${event.title})}" class="btn primary">Comprar ingresso.</a>
+      <div class="container-buttons">
+        <div th:if="${!isSoldOut}">
+          <a th:href="@{/scheduled-event/new(eventTitle=${event.title})}" class="btn primary">Comprar ingresso.</a>
+        </div>
+        <div th:if="${isSoldOut}">
+          <p style="color: red; font-weight: bold; margin-bottom: 10px;">ESGOTADO</p>
+          <form th:action="@{/waitlist/join-event}" method="POST">
+            <input type="hidden" name="eventTitle" th:value="${event.title}" />
+            <button class="btn warn" type="submit">Entrar na Lista de Espera</button>
+          </form>
+        </div>
+        
+        <a href="/admin/event/edit/${event.id}" th:if="${user != null and user.role == 'admin'}" class="btn second">Editar</a>
+        <div th:if="${user != null and user.role == 'admin'}">
+          <form th:action="@{/admin/event/delete/{id}(id=${event.id})}" method="POST" onsubmit="return confirm('Tem certeza que deseja deletar este evento?')">
+            <button class="btn danger" type="submit">Deletar Evento</button>
+          </form>
+        </div>
+      </div>
     </main>
   </body>
 </html>

@@ -40,3 +40,7 @@ form {
 a.link {
     color: #1883FF;
 }
+
+.link-recovery-password {
+    color: #E3242B;
+    text-decoration: none;

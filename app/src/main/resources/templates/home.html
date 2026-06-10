@@ -20,23 +20,25 @@
     <header class="header">
       <div class="header-container">
         <img src="/img/logo.svg" class="logo" alt="" />
-        <a href="/login">login</a>
-        <a href="/signup">signup</a>
       </div>
 
-      <a
-        class="link header-container"
-        th:href="@{/profile/{userId}(userId=${user.userId})}"
-      >
-        <span th:text="${user.userId}"></span>
+      <div class="header-container">
+        <a th:if="${user.role == 'admin'}" href="/admin/dashboard" class="btn third" style="margin-right: 1rem;">Dashboard</a>
+        
+        <a
+          class="link header-container"
+          th:href="@{/profile/{userId}(userId=${user.userId})}"
+        >
+          <span th:text="${user.userId}"></span>
 
-        <img
-          th:src="${user.imageBase64 != null ? user.imageBase64 : 'https://picsum.photos/100/100'}"
-          alt="Profile image"
-          class="profile-image"
-          id="profileImageDisplay"
-        />
-      </a>
+          <img
+            th:src="${user.imageBase64 != null ? user.imageBase64 : '/img/default-avatar.svg'}"
+            alt="Profile image"
+            class="profile-image"
+            id="profileImageDisplay"
+          />
+        </a>
+      </div>
     </header>
     <main>
       <section>
@@ -46,10 +48,28 @@
 
         <div class="container-link">
           <h3>Venha conhecer a Arena de Pernambuco</h3>
-          <button class="btn primary">Agendar visita</button>
-        </div>
+          <a href="/scheduled-visit/new" class="btn primary" style="margin-bottom: 1rem;">Agendar visita</a>
 
-        <hr />
+          <div th:if="${not #lists.isEmpty(scheduledVisits)}">
+            <h4 style="margin-top: 1rem;">Meus Agendamentos de Visita</h4>
+            <table class="visit-table" style="width: 100%; border-collapse: collapse; margin-top: 0.5rem;">
+              <thead>
+                <tr style="text-align: left; border-bottom: 2px solid #00000030;">
+                  <th style="padding: 0.5rem;">Data</th>
+                  <th style="padding: 0.5rem;">Horário</th>
+                  <th style="padding: 0.5rem;">Pessoas</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="sv : ${scheduledVisits}" style="border-bottom: 1px solid #00000010;">
+                  <td style="padding: 0.5rem;" th:text="${#temporals.format(sv.visit.date, 'dd/MM/yyyy')}"></td>
+                  <td style="padding: 0.5rem;" th:text="${sv.visit.time}"></td>
+                  <td style="padding: 0.5rem;" th:text="${sv.numberOfPeople}"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
 
         <div class="container-link">
           <h3>Eventos</h3>

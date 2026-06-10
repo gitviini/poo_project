@@ -1,6 +1,12 @@
 HELP.md
 target/
 .mvn/wrapper/maven-wrapper.jar
+
+# Banco de dados H2 e backups — nunca versionar dados
+data/
+*.mv.db
+*.trace.db
+*.lock.db
 !**/src/main/**/target/
 !**/src/test/**/target/
 
