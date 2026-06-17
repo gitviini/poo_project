@@ -18,6 +18,11 @@
         </div>
         <div class="container-form">
             <h2 class="title">Bem vindo de volta!</h2>
+            
+            <div th:if="${param.error != null and param.error[0] == 'expired'}" class="alert alert-info" style="color: #004085; background-color: #cce5ff; border-color: #b8daff; padding: 0.75rem 1.25rem; margin-bottom: 1rem; border: 1px solid transparent; border-radius: 0.25rem; width: 100%;">
+                Sua sessão expirou por inatividade. Por favor, faça login novamente.
+            </div>
+
             <form action="/login" method="post">
                 <label for="userId">
                     ID de Usuário

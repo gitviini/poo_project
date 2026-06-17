@@ -1,8 +1,8 @@
 package com.arena.app.config;
 
-import com.arena.app.model.User;
-import com.arena.app.repository.UserRepository;
-import com.arena.app.service.TokenService;
+import com.arena.app.iam.domain.model.User;
+import com.arena.app.iam.domain.repository.UserRepository;
+import com.arena.app.iam.application.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;

@@ -62,8 +62,8 @@
               </thead>
               <tbody>
                 <tr th:each="sv : ${scheduledVisits}" style="border-bottom: 1px solid #00000010;">
-                  <td style="padding: 0.5rem;" th:text="${#temporals.format(sv.visit.date, 'dd/MM/yyyy')}"></td>
-                  <td style="padding: 0.5rem;" th:text="${sv.visit.time}"></td>
+                  <td style="padding: 0.5rem;" th:text="${sv.visit != null ? #temporals.format(sv.visit.date, 'dd/MM/yyyy') : 'Data Indisponível'}"></td>
+                  <td style="padding: 0.5rem;" th:text="${sv.visit != null ? sv.visit.time : 'Horário Indisponível'}"></td>
                   <td style="padding: 0.5rem;" th:text="${sv.numberOfPeople}"></td>
                 </tr>
               </tbody>
