@@ -5,9 +5,6 @@ import java.util.Optional;
 import java.util.List;
  
 import java.util.UUID;
-import com.arena.app.iam.domain.repository.UserRepository;
-import com.arena.app.scheduling.domain.repository.EventRepository;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
