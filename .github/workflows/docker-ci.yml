@@ -34,7 +34,6 @@ jobs:
           # Testa a resposta da aplicação
           curl --fail http://localhost:8080 || exit 1
           docker compose down
-<<<<<<< HEAD
 
       - name: Create PR to prod
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -43,5 +42,3 @@ jobs:
         run: |
           gh pr create --base prod --head main --title "Deploy: main to prod" --body "PR automático criado após sucesso no Docker CI." || echo "PR já existe ou não há mudanças para mesclar."
 
-=======
->>>>>>> 5742b5574f5f7122cbd6bd53bceb07aba9b8f769
