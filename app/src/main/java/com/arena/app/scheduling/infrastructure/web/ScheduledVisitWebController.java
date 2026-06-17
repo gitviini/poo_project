@@ -1,5 +1,6 @@
 package com.arena.app.scheduling.infrastructure.web;
 
+import com.arena.app.core.domain.event.VisitVacatedEvent;
 import com.arena.app.iam.domain.model.User;
 import com.arena.app.scheduling.application.service.SchedulingService;
 import com.arena.app.scheduling.domain.model.ScheduledVisit;
@@ -9,6 +10,7 @@ import com.arena.app.scheduling.domain.repository.VisitRepository;
 import com.arena.app.iam.domain.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +35,9 @@ public class ScheduledVisitWebController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/new")
     public String showForm(Model model, HttpServletRequest request) {
@@ -128,9 +133,12 @@ public class ScheduledVisitWebController {
             return "redirect:/";
         }
 
+        var visitOpt = visitRepository.findById(scheduledVisit.getVisitId());
         scheduledVisitRepository.delete(scheduledVisit);
         
-        // Waitlist notification would go here if implemented
+        if (visitOpt.isPresent()) {
+            eventPublisher.publishEvent(new VisitVacatedEvent(visitOpt.get()));
+        }
 
         redirectAttributes.addFlashAttribute("toast", Map.of("message", "Agendamento cancelado com sucesso!", "statusCode", 200));
         return "redirect:/profile/" + user.getUserId();
