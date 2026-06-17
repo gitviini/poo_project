@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Garante que o histórico do Git venha completo para evitar erros no PR
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -27,12 +29,24 @@ jobs:
       - name: Verify Container Build
         run: |
           docker compose up -d
-          # Aguarda um pouco para o Spring Boot iniciar
-          sleep 30
-          # Verifica se o container está rodando
+          
+          # Aguarda o Spring Boot iniciar usando um loop de healthcheck (máx 60s)
+          echo "Aguardando a aplicação responder em http://localhost:8080..."
+          for i in {1..12}; do
+            if curl --fail -s http://localhost:8080 > /dev/null; then
+              echo "Aplicação subiu com sucesso!"
+              break
+            fi
+            echo "Tentativa $i/12: Aplicação ainda não está pronta, aguardando 5 segundos..."
+            sleep 5
+          done
+          
+          # Verifica o status final dos containers
           docker compose ps
-          # Testa a resposta da aplicação
-          curl --fail http://localhost:8080 || exit 1
+          
+          # Teste definitivo: se falhar aqui, o workflow para
+          curl --fail http://localhost:8080 || (docker compose logs && exit 1)
+          
           docker compose down
 
       - name: Create PR to prod
@@ -40,5 +54,11 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr create --base prod --head main --title "Deploy: main to prod" --body "PR automático criado após sucesso no Docker CI." || echo "PR já existe ou não há mudanças para mesclar."
-
+          # Verifica se já existe um PR aberto de main para prod para evitar erro feio no log
+          PR_EXISTS=$(gh pr list --base prod --head main --state open --json id -q '. | length')
+          
+          if [ "$PR_EXISTS" -eq "0" ]; then
+            gh pr create --base prod --head main --title "Deploy: main to prod" --body "PR automático criado após sucesso no Docker CI."
+          else
+            echo "Já existe um PR aberto de main para prod."
+          fi
