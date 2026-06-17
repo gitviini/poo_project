@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ticket de Visita</title>
+    <link rel="shortcut icon" href="/img/logo.svg" type="image/x-icon" />
+    <link rel="stylesheet" href="/css/global.css" />
+    <link rel="stylesheet" href="/css/home.css" />
+    <style>
+      .ticket-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        text-align: center;
+      }
+      .ticket-header {
+        border-bottom: 2px solid #f0f0f0;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+      }
+      .ticket-details {
+        text-align: left;
+        margin-bottom: 2rem;
+      }
+      .detail-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid #f9f9f9;
+      }
+      .status-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        background-color: #4caf50;
+        color: white;
+        font-weight: bold;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-container">
+        <a href="/"><img src="/img/logo.svg" class="logo" alt="Arena Logo" /></a>
+      </div>
+      <div class="header-container">
+        <a class="link header-container" th:href="@{/profile/{userId}(userId=${ticketUser.userId})}">
+          <span th:text="${ticketUser.userId}"></span>
+          <img th:src="${ticketUser.imageBase64 != null ? ticketUser.imageBase64 : '/img/default-avatar.svg'}" class="profile-image" />
+        </a>
+      </div>
+    </header>
+
+    <main>
+      <div class="ticket-container">
+        <div class="ticket-header">
+          <h2>Seu Ticket de Visita</h2>
+          <p>Apresente este ticket na entrada da Arena</p>
+        </div>
+
+        <div class="ticket-details">
+          <div class="detail-row">
+            <strong>ID do Agendamento:</strong>
+            <span th:text="${ticket.id}"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Data:</strong>
+            <span th:text="${#temporals.format(visit.date, 'dd/MM/yyyy')}"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Horário:</strong>
+            <span th:text="${visit.time}"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Número de Pessoas:</strong>
+            <span th:text="${ticket.numberOfPeople}"></span>
+          </div>
+          <div class="detail-row">
+            <strong>Status:</strong>
+            <span class="status-badge" th:text="${ticket.status}">CONFIRMADO</span>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a href="/" class="btn second">Voltar para Home</a>
+          <button onclick="window.print()" class="btn primary">Imprimir Ticket</button>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

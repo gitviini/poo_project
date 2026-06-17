@@ -95,6 +95,8 @@ async function loadScheduledEvents() {
       return;
     }
 
+    console.log(scheduledEvents)
+
     let html = scheduledEvents.map(se => `
       <div class="container-card scheduled">
         <div class="card">
