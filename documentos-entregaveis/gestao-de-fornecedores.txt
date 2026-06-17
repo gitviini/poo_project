@@ -1,0 +1,210 @@
+GESTAO DE FORNECEDORES
+Projeto: ArenaConecta - Grupo 5 - Entrega 10-11/06
+
+Este documento descreve como o projeto ArenaConecta controla o risco dos
+fornecedores dos quais o sistema depende: bibliotecas, imagens de conteiner,
+hospedagem e servicos externos carregados pelo navegador.
+
+
+1. O QUE É GESTAO DE FORNECEDORES EM CIBERSEGURANCA
+
+Quase nenhum sistema e feito so de codigo proprio. O ArenaConecta usa
+bibliotecas prontas (Spring Boot, H2, BCrypt), uma imagem base de conteiner
+(Java), uma hospedagem (Render) e arquivos servidos por terceiros (icones,
+grafico). Cada um desses e um fornecedor, e cada fornecedor e uma porta de
+entrada de risco.
+
+Esse risco tem nome: ataque de cadeia de suprimentos (supply chain). Em vez de
+atacar o nosso sistema diretamente, o atacante compromete algo em que
+confiamos. Um exemplo real e conhecido: em 2021 a biblioteca event-stream (npm)
+recebeu uma atualizacao com codigo malicioso escondido; quem so pedia "a ultima
+versao" passou a executar esse codigo sem saber. A licao e direta: depender de
+terceiros e normal e necessario, mas precisa ser controlado.
+
+
+2. INVENTARIO DE FORNECEDORES
+
+Levantamento de tudo que o projeto consome de terceiros, onde aparece no codigo
+e se a versao esta fixada.
+
+- Spring Boot
+  O que fornece: framework da aplicacao
+  Onde no projeto: app/pom.xml (4.0.5)
+  Versao fixada: Sim
+  Risco principal: falha conhecida em versao antiga
+  Mitigacao: versao fixa, fonte oficial (Maven Central)
+
+- H2 Database
+  O que fornece: banco de dados
+  Onde no projeto: app/pom.xml
+  Versao fixada: Sim (via Spring Boot)
+  Risco principal: corrupcao / falha do banco
+  Mitigacao: criptografado (AES) e com backup (ver topico 7)
+
+- jBCrypt (org.mindrot)
+  O que fornece: hash de senha
+  Onde no projeto: app/pom.xml (0.4)
+  Versao fixada: Sim
+  Risco principal: falha no hash de senha
+  Mitigacao: versao fixa, biblioteca estavel e amplamente usada
+
+- JJWT (io.jsonwebtoken)
+  O que fornece: tokens JWT
+  Onde no projeto: app/pom.xml (0.11.5)
+  Versao fixada: Sim
+  Risco principal: falha em validacao de token
+  Mitigacao: versao fixa, fonte oficial
+
+- eclipse-temurin (Java)
+  O que fornece: imagem base Docker
+  Onde no projeto: app/Dockerfile (17-jdk / 17-jre-jammy)
+  Versao fixada: Sim (tag fixa)
+  Risco principal: imagem trocada / desatualizada
+  Mitigacao: tag fixa, imagem oficial do Docker Hub
+
+- Render
+  O que fornece: hospedagem de producao
+  Onde no projeto: deploy
+  Versao fixada: -
+  Risco principal: indisponibilidade do provedor
+  Mitigacao: sistema empacotado em Docker, sobe em qualquer host
+
+- GitHub + Actions
+  O que fornece: repositorio e CI
+  Onde no projeto: repositorio
+  Versao fixada: -
+  Risco principal: indisponibilidade / acesso indevido
+  Mitigacao: codigo versionado, sem segredos no repositorio
+
+- FontAwesome (kit 5684532330)
+  O que fornece: icones
+  Onde no projeto: event.html, event-sugestion-form.html
+  Versao fixada: kit do projeto
+  Risco principal: CDN fora do ar
+  Mitigacao: falha apenas visual (icones), o sistema opera
+
+- Chart.js (via jsDelivr)
+  O que fornece: grafico do dashboard
+  Onde no projeto: admin/chart.html
+  Versao fixada: Sim (4.5.1 + SRI) - corrigido
+  Risco principal: arquivo trocado no CDN
+  Mitigacao: versao fixa + verificacao de integridade
+
+- picsum.photos (REMOVIDO)
+  O que fornece: foto de perfil padrao
+  Onde no projeto: (removido)
+  Versao fixada: -
+  Risco principal: imagem externa aleatoria/maliciosa
+  Mitigacao: removido, substituido por arquivo local
+
+
+3. CRITERIOS DE SELECAO DE FORNECEDORES
+
+Antes de adotar uma dependencia, o projeto observa:
+
+1. Fonte oficial - bibliotecas vem do Maven Central; a imagem de conteiner vem
+   da conta oficial do Eclipse Temurin no Docker Hub. Nao baixamos arquivos de
+   origem desconhecida.
+2. Projeto mantido e popular - preferencia por bibliotecas com manutencao ativa
+   e uso amplo (Spring Boot, BCrypt, JJWT), porque problemas sao descobertos e
+   corrigidos mais rapido.
+3. Licenca compativel - todas as dependencias usadas tem licenca aberta
+   (Apache 2.0 / similar), compativel com um projeto academico.
+
+
+4. POLITICA DE VERSOES
+
+Regra: toda dependencia tem versao fixada (pin).
+
+Versao fixa significa que o sistema sempre usa exatamente a versao que testamos.
+O contrario - pedir "a ultima versao" - e perigoso por dois motivos:
+
+- o fornecedor pode lancar uma atualizacao que quebra o nosso sistema sem aviso;
+- se a conta do fornecedor for invadida, "a ultima versao" pode conter codigo
+  malicioso, e nos o executariamos automaticamente.
+
+No projeto isso aparece em todos os fornecedores do inventario: versoes fixas no
+pom.xml, tag fixa no Dockerfile e, apos a correcao descrita a seguir, versao
+fixa tambem no Chart.js.
+
+
+5. CORRECOES FEITAS (ESTUDO DE CASO)
+
+Durante a auditoria, dois fornecedores estavam fora da politica. Ambos foram
+corrigidos.
+
+5.1 Chart.js: versao fixada + verificacao de integridade (SRI)
+
+O grafico do painel administrativo carregava o Chart.js assim:
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+Esse endereco entrega sempre a ultima versao. Era uma dependencia flutuante: o
+fornecedor poderia trocar o arquivo a qualquer momento. A correcao
+(admin/chart.html):
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"
+    integrity="sha384-jb8JQMbMoBUzgWatfe6COACi2ljcDdZQ2OxczGA3bGNeWe+6DChMTBJemed7ZnvJ"
+    crossorigin="anonymous"></script>
+
+Duas protecoes foram somadas:
+
+- Versao fixa (@4.5.1): o fornecedor nao nos surpreende com mudancas.
+- SRI (integrity): o navegador calcula o hash do arquivo baixado e compara com o
+  hash declarado. Se o CDN for invadido e o arquivo trocado, o hash nao bate e o
+  navegador recusa carregar o script.
+
+O hash foi gerado a partir do proprio arquivo do fornecedor:
+
+  curl -sS https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js \
+    | openssl dgst -sha384 -binary | openssl base64 -A
+
+5.2 Remocao do picsum.photos
+
+A foto de perfil padrao vinha de https://picsum.photos/100/100, um servico
+externo que devolve uma imagem aleatoria. Eram dois problemas: o sistema
+dependia de um terceiro em tempo de execucao para um dado de usuario, e a imagem
+recebida era imprevisivel (se o servico servisse conteudo malicioso, nos
+afetava).
+
+A solucao foi remover o fornecedor: criamos um arquivo local
+(static/img/default-avatar.svg) e os tres modelos que usavam o picsum
+(home.html, profile.html, admin/dashboard.html) passaram a apontar para ele:
+
+  th:src="${user.imageBase64 != null ? user.imageBase64 : '/img/default-avatar.svg'}"
+
+
+6. PROCEDIMENTO DE AUDITORIA
+
+Para verificar se ha atualizacoes de dependencias disponiveis sem aplica-las as
+cegas, o projeto usa o comando:
+
+  ./mvnw versions:display-dependency-updates
+
+Ele apenas lista o que existe de mais novo; a decisao de atualizar continua
+sendo manual e seguida de teste. Recomenda-se rodar periodicamente para nao
+ficar preso em versoes com falhas conhecidas.
+
+
+7. CONTINUIDADE SE UM FORNECEDOR FALHAR
+
+Esta secao complementa o documento de backup e continuidade.
+
+- Render (hospedagem) cair - o sistema e empacotado em Docker; pode subir em
+  qualquer outro host com o mesmo Dockerfile, sem reescrever nada.
+- CDN (FontAwesome / jsDelivr) cair - degrada apenas a aparencia: icones ou o
+  grafico podem nao carregar, mas o sistema continua operando normalmente.
+- Biblioteca Maven com falha descoberta - como as versoes sao fixas, a correcao
+  e controlada: atualiza-se a versao, testa-se e so entao vai para producao.
+
+
+8. EVIDENCIAS PARA A ENTREGA
+
+- Tabela de inventario (secao 2).
+- admin/chart.html com versao fixada e atributo integrity (SRI).
+- static/img/default-avatar.svg e os tres modelos sem nenhuma chamada ao
+  picsum.photos (grep -r "picsum" app/src/main/resources/ nao retorna uso).
+- Saida do comando ./mvnw versions:display-dependency-updates.
+- (Demonstracao opcional) alterar um caractere do hash SRI e mostrar o navegador
+  bloqueando o script; depois desfazer.

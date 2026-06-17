@@ -24,11 +24,10 @@ import java.util.stream.Stream;
 
 /**
  * Faz o backup do banco de dados H2.
- *
- * Usa o comando nativo do H2 "BACKUP TO '<arquivo>.zip'", que gera uma copia
- * binaria e consistente de todo o banco em um unico arquivo .zip. Os backups
- * ficam na pasta configurada em app.backup.dir e a quantidade e limitada por
- * app.backup.retention (mantem apenas os mais recentes).
+ Usa o comando nativo do H2 "BACKUP TO '<arquivo>.zip'", que gera uma copia
+  binaria e consistente de todo o banco em um unico arquivo .zip. Os backups
+  ficam na pasta configurada em app.backup.dir e a quantidade e limitada por
+  app.backup.retention (mantem apenas os mais recentes).
  */
 @Service
 public class BackupService {

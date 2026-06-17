@@ -2,11 +2,11 @@ services:
   app:
     build: .
     ports:
-      - "8080:8080"
+      - "8081:8080"
     volumes:
       - app-data:/app/data
     environment:
-      # Senha que criptografa o arquivo do banco (AES). Defina no host ou em um .env;
+      # Senha que criptografa o arquivo do banco (AES)
       # o valor abaixo e so o fallback de desenvolvimento.
       - DB_FILE_PASSWORD=${DB_FILE_PASSWORD:-devfilepwd}
     restart: always
