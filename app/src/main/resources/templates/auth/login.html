@@ -25,9 +25,9 @@
 
             <form action="/login" method="post">
                 <label for="userId">
-                    ID de Usuário
+                    Login
                     <img src="/img/icons/user-regular-full.svg" alt="" class="icon-small"></label>
-                <input id="userId" name="userId" class="input auth" type="text" placeholder="Digite o seu ID de usuário">
+                <input id="userId" name="userId" class="input auth" type="text" placeholder="Digite o seu login">
                 <label for="password">
                     Senha
                     <img src="img/icons/lock-solid-full.svg" alt="" class="icon-small"></label>
@@ -41,5 +41,6 @@
             </div>
         </div>
     </main>
+    <div th:insert="~{footer :: footer}"></div>
 </body>
 </html>

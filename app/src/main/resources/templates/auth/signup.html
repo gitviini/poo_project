@@ -20,9 +20,9 @@
             <h2 class="title">Bem vindo a Arena!</h2>
             <form action="/signup" method="post">
                 <label for="userId">
-                    ID de Usuário
+                    Login
                     <img src="/img/icons/address-card-solid-full.svg" alt="" class="icon-small"></label>
-                <input id="userId" name="userId" class="input auth" type="text" maxlength="25" placeholder="Crie um ID único (ex: joao123)" required>
+                <input id="userId" name="userId" class="input auth" type="text" maxlength="25" placeholder="Crie um login único (ex: joao123)" required>
                 <label for="name">
                     Nome
                     <img src="/img/icons/user-regular-full.svg" alt="" class="icon-small"></label>
@@ -38,7 +38,16 @@
                 <label for="password">
                     Senha
                     <img src="/img/icons/lock-solid-full.svg" alt="" class="icon-small"></label>
-                <input id="password" name="password" class="input auth" type="password" placeholder="Crie sua senha segura" required>
+                <input id="password" name="password" class="input auth" type="password" placeholder="Crie sua senha segura"
+                       minlength="8" pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$"
+                       title="Mínimo de 8 caracteres, com letras e números." required>
+                <small class="hint">A senha deve ter no mínimo 8 caracteres, com letras e números.</small>
+
+                <label class="consent" for="aceitePrivacidade">
+                    <input id="aceitePrivacidade" name="aceitePrivacidade" type="checkbox" value="true" required>
+                    Li e aceito a <a href="/privacidade" target="_blank" class="link">Política de Privacidade (LGPD)</a>.
+                </label>
+
                 <button class="btn auth primary">Cadastrar</button>
             </form>
             <div class="container-link">

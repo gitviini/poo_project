@@ -28,8 +28,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String path = request.getRequestURI();
 
         // Skip auth for static resources and public endpoints
-        if (path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/img/") || 
-            path.equals("/login") || path.equals("/signup") || path.equals("/error") || path.equals("/auth/login") || path.equals("/auth/signup")) {
+        if (path.startsWith("/css/") || path.startsWith("/js/") || path.startsWith("/img/") ||
+            path.equals("/login") || path.equals("/signup") || path.equals("/privacidade") || path.equals("/error") || path.equals("/auth/login") || path.equals("/auth/signup")) {
             return true;
         }
 
@@ -53,6 +53,13 @@ public class AuthInterceptor implements HandlerInterceptor {
                 if (userOpt.isPresent()) {
                     User user = userOpt.get();
                     request.setAttribute("authenticatedUser", user);
+
+                    // Impede o navegador de guardar paginas autenticadas em cache.
+                    // Sem isso, apos o logout o botao "voltar" mostraria a pagina
+                    // logada a partir do cache (bfcache), parecendo ainda logado.
+                    response.setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
+                    response.setHeader("Pragma", "no-cache");
+                    response.setHeader("Expires", "0");
 
                     // RBAC check for /admin/**
                     if (path.startsWith("/admin") && !"admin".equals(role)) {

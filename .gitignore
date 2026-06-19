@@ -8,3 +8,14 @@ backups/
 # Documentação interna e relatórios — entregues separadamente, não versionar
 docs/
 RESTORE.md
+
+.playwright-mcp/
+app/src/main/java/com/arena/app/core/infrastructure/web/PrivacyController.java
+app/src/main/java/com/arena/app/core/infrastructure/web/SecurityHeadersFilter.java
+app/src/main/java/com/arena/app/iam/application/service/LoginAttemptService.java
+app/src/main/resources/templates/footer.html
+app/src/main/resources/templates/privacidade.html
+login-footer.jpeg
+privacidade-final.jpeg
+privacidade-lgpd.png
+privacidade-raleway.jpeg

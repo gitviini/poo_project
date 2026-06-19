@@ -232,3 +232,77 @@ label img.icon-small {
     width: 16px;
     height: 16px;
 }
+
+.site-footer {
+    margin-top: 3rem;
+    background-color: #f5f7f9;
+    border-top: 1px solid #00000020;
+    padding: 2rem 1.5rem 1rem;
+    color: #333;
+}
+
+.site-footer .footer-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.site-footer .footer-col {
+    flex: 1 1 180px;
+}
+
+.site-footer .footer-brand img {
+    width: 36px;
+    margin-bottom: 0.5rem;
+}
+
+.site-footer .footer-brand strong {
+    color: #00426b;
+    display: block;
+    font-size: 1.05rem;
+}
+
+.site-footer .footer-brand p {
+    font-size: 0.85rem;
+    color: #00000099;
+    margin-top: 0.35rem;
+    max-width: 260px;
+}
+
+.site-footer h4 {
+    color: #00426b;
+    font-size: 0.95rem;
+    margin-bottom: 0.75rem;
+}
+
+.site-footer ul {
+    list-style: none;
+}
+
+.site-footer li {
+    margin: 0.4rem 0;
+}
+
+.site-footer a {
+    color: #026c9e;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.site-footer a:hover {
+    color: #00426b;
+    text-decoration: underline;
+}
+
+.site-footer .footer-bottom {
+    max-width: 1000px;
+    margin: 1.5rem auto 0;
+    padding-top: 1rem;
+    border-top: 1px solid #00000015;
+    font-size: 0.8rem;
+    color: #00000080;
+    text-align: center;
+}
